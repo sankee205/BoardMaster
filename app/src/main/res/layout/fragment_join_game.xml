@@ -97,6 +97,30 @@
             android:text="GameMembers:"
             android:textColor="#050505" />
 
+        <TextView
+            android:id="@+id/popUpGameTime"
+            android:layout_width="64dp"
+            android:layout_height="29dp"
+            android:layout_above="@+id/popUpGameTitle"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toStartOf="@+id/popUpGamePlayers"
+            android:layout_toLeftOf="@+id/popUpGamePlayers"
+            android:text="Time" />
+
+        <TextView
+            android:id="@+id/popUpGameDate"
+            android:layout_width="56dp"
+            android:layout_height="29dp"
+            android:layout_above="@+id/popUpGameTitle"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toStartOf="@+id/popUpGameTime"
+            android:layout_toLeftOf="@+id/popUpGameTime"
+            android:text="Date" />
+
     </RelativeLayout>
 
 
