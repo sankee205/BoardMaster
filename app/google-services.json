@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "399335091427",
+    "firebase_url": "https://boardmaster-ee555.firebaseio.com",
+    "project_id": "boardmaster-ee555",
+    "storage_bucket": "boardmaster-ee555.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399335091427:android:207b52fccfca1fa0db69d6",
+        "android_client_info": {
+          "package_name": "com.example.boardmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399335091427-tlt9s2noo43b74skoft6s2d5rrgictr3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boardmaster",
+            "certificate_hash": "345c327354e1b0628a1db8ceefa6faa3fff6f1e5"
+          }
+        },
+        {
+          "client_id": "399335091427-fucqq5499pn9fcartj1latnc47e0ul4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiqWZ7zDI1BMciq_pg95lJoAE54SpnT7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399335091427-fucqq5499pn9fcartj1latnc47e0ul4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

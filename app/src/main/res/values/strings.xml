@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">BoardMaster</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Username</string>
+    <string name="nav_header_subtitle">Email</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_groups">Groups</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_register">Register</string>
+
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="button">Button</string>
+    <string name="register_an_account">Register an account</string>
+    <string name="add_item">Add Image</string>
+    <string name="fullname">Name</string>
+</resources>
