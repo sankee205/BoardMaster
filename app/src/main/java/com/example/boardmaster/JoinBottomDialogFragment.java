@@ -51,18 +51,37 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         mDescription.setText(description);
         mPlayers.setText(players);
 
-        mBuyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(currentUser.isUserLogedIn()){
-                    joinGame(id);
-                }
-                else{
-                    Toast.makeText(getActivity(),"Please login or register", Toast.LENGTH_SHORT).show();
-                }
-
+        if(CurrentUser.getInstance().isUserLogedIn()){
+            if (players.contains(CurrentUser.getInstance().getUser().getUsername())){
+                mBuyButton.setVisibility(View.GONE);
             }
-        });
+            else{
+                mBuyButton.setVisibility(View.VISIBLE);
+                mBuyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        joinGame(id);
+
+                    }
+                });
+            }
+        }
+        else{
+            mBuyButton.setVisibility(View.VISIBLE);
+            mBuyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(currentUser.isUserLogedIn()){
+                        joinGame(id);
+                    }
+                    else{
+                        Toast.makeText(getActivity(),"Please login or register", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+        }
+
 
         return view;
 

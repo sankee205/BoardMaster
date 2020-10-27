@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment{
                 if(!response.isSuccessful()){
                     System.out.println("code:"+response.code());
                     return;
-                }join
+                }
                 ArrayList<BoardGame> boardgames = response.body();
                 ArrayList<String> boardgamelist = new ArrayList<>();
 
