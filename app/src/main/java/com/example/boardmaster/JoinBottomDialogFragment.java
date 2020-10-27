@@ -22,7 +22,7 @@ import retrofit2.Response;
 public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
     private JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     private CurrentUser currentUser = CurrentUser.getInstance();
-    private TextView mGame, mPlayers, mTitle, mDescription;
+    private TextView mGame, mPlayers, mTitle, mDescription, mGameMembers;
     private Button mBuyButton;
 
     private String id;
@@ -45,11 +45,13 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         mPlayers = view.findViewById(R.id.popUpGamePlayers);
         mDescription = view.findViewById(R.id.popUpGameDescription);
         mBuyButton = view.findViewById(R.id.joinButton);
+        mGameMembers = view.findViewById(R.id.popUpGamePlayerText);
 
         mGame.setText(game);
         mTitle.setText(title);
         mDescription.setText(description);
         mPlayers.setText(players);
+        mGameMembers.setText("GameMembers: ");
 
         if(CurrentUser.getInstance().isUserLogedIn()){
             if (players.contains(CurrentUser.getInstance().getUser().getUsername())){
