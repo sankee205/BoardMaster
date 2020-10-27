@@ -29,7 +29,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fab);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        FloatingActionButton addBoardGame = findViewById(R.id.addBoardButton);
+        FloatingActionButton addBoardGame = findViewById(R.id.editProfileSaveButton);
 
         hview = navigationView.getHeaderView(0);
         mUsername = (TextView) hview.findViewById(R.id.navUsername);

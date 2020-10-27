@@ -42,13 +42,13 @@ public interface JsonPlaceHolderApi {
     Call<Object> createUsers(@PartMap Map<String, RequestBody> data);
 
     @Multipart
-    @PUT("auth/editProfile")
+    @PUT("auth/editprofile")
     Call<ResponseBody> editUser(@Header("Authorization") String token,
                                     @PartMap Map<String, RequestBody> data
     );
 
     @Multipart
-    @PUT("auth/editProfile")
+    @PUT("auth/editprofile")
     Call<ResponseBody> editUserAndPhoto(@Header("Authorization") String token,
                                      @PartMap Map<String, RequestBody> data,
                                      @Part MultipartBody.Part image);
