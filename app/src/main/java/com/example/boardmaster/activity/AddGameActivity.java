@@ -81,14 +81,14 @@ public class AddGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
 
-        mTitle = findViewById(R.id.addBoardGameName);
+        mTitle = findViewById(R.id.editProfileFirstName);
         mDescription = findViewById(R.id.addGameDescription);
-        mPlayers = findViewById(R.id.addBoardGamePlayers);
-        imageView = findViewById(R.id.addBoardGameImage);
+        mPlayers = findViewById(R.id.editProfileEmail);
+        imageView = findViewById(R.id.editProfileImage);
 
-        addBook = findViewById(R.id.addBoardButton);
-        takePhoto = findViewById(R.id.addBoardGameImageButton);
-        backButton = findViewById(R.id.addGameBackToHome);
+        addBook = findViewById(R.id.editProfileSaveButton);
+        takePhoto = findViewById(R.id.editProfileImageButton);
+        backButton = findViewById(R.id.editProfileCancelButton);
 
         spinner = findViewById(R.id.searchableSpinner);
 

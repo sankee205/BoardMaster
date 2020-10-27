@@ -197,6 +197,7 @@ public class RegisterProfileActivity extends AppCompatActivity {
                             for(int i = 0; i < photoList.length(); i ++){
                                 JSONObject photo = photoList.getJSONObject(i);
                                 String id = photo.getString("id");
+                                System.out.println("id: " +id);
 
                                 uploadImageToFirebase(contentUri, id);
                             }
@@ -205,7 +206,6 @@ public class RegisterProfileActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    //uploadImageToFirebase("id", contentUri, somResponse);
                     Toast.makeText(RegisterProfileActivity.this,"Registered successfully, please login", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
@@ -350,6 +350,7 @@ public class RegisterProfileActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 Toast.makeText(RegisterProfileActivity.this,"Image Uploaded", Toast.LENGTH_SHORT).show();
+                                System.out.println("image uploaded to firebase");
                             }
                         });
                     }
@@ -357,8 +358,7 @@ public class RegisterProfileActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
+                        System.out.println(exception.getMessage());
                     }
                 });
     }

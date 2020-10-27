@@ -50,7 +50,7 @@ import retrofit2.Response;
 public class EditProfileActivity extends AppCompatActivity {
     JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     TextView backButton;
-    EditText mFirstname, mLastname, mUsername, mPassword, mEmail;
+    EditText mFirstname, mLastname, mUsername, mEmail;
 
     ImageView imageView;
     Button addBook;
@@ -74,15 +74,15 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_profile_activity);
 
-        mFirstname = findViewById(R.id.addBoardGameName);
+        mFirstname = findViewById(R.id.editProfileFirstName);
         mLastname = findViewById(R.id.editProfileLastName);
         mUsername = findViewById(R.id.editProfileUserName);
-        mEmail = findViewById(R.id.addBoardGamePlayers);
-        imageView = findViewById(R.id.addBoardGameImage);
+        mEmail = findViewById(R.id.editProfileEmail);
+        imageView = findViewById(R.id.editProfileImage);
 
-        addBook = findViewById(R.id.addBoardButton);
-        takePhoto = findViewById(R.id.addBoardGameImageButton);
-        backButton = findViewById(R.id.addGameBackToHome);
+        addBook = findViewById(R.id.editProfileSaveButton);
+        takePhoto = findViewById(R.id.editProfileImageButton);
+        backButton = findViewById(R.id.editProfileCancelButton);
 
         getInfo();
 

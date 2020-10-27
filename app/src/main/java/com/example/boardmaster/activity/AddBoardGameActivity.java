@@ -79,12 +79,12 @@ public class AddBoardGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_boardgame);
 
-        homeButton = findViewById(R.id.addGameBackToHome);
-        mName = findViewById(R.id.addBoardGameName);
-        mPlayers = findViewById(R.id.addBoardGamePlayers);
+        homeButton = findViewById(R.id.editProfileCancelButton);
+        mName = findViewById(R.id.editProfileFirstName);
+        mPlayers = findViewById(R.id.editProfileEmail);
 
-        addBoardGame = findViewById(R.id.addBoardButton);
-        takePhoto = findViewById(R.id.addBoardGameImageButton);
+        addBoardGame = findViewById(R.id.editProfileSaveButton);
+        takePhoto = findViewById(R.id.editProfileImageButton);
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
