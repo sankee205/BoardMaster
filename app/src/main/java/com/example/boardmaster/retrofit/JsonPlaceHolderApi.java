@@ -100,14 +100,14 @@ public interface JsonPlaceHolderApi {
 
 
     @Headers("Content-Type:application/json")
-    @PUT("boardmaster/purchase")
-    Call<ResponseBody>purchaseItem(@Header("Authorization") String token,
-                                   @Query("itemid") String itemid);
+    @PUT("boardmaster/joingame")
+    Call<ResponseBody>joinGame(@Header("Authorization") String token,
+                                   @Query("gameid") String gameid);
 
     @Headers("Content-Type:application/json")
-    @DELETE("boardmaster/delete")
-    Call<ResponseBody>deleteItem(@Header("Authorization") String token,
-                                 @Query("itemid") String itemid);
+    @DELETE("boardmaster/exitgame")
+    Call<ResponseBody>exitGame(@Header("Authorization") String token,
+                                 @Query("gameid") String gameid);
 
 
     @Multipart

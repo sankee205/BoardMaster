@@ -96,7 +96,6 @@ public class HomeFragment extends Fragment{
                     boardgamelist.add(boardgames.get(i).getName());
                 }
                 CurrentUser.getInstance().setGameList(boardgamelist);
-                System.out.println("board games: "+ boardgamelist);
 
 
             }
