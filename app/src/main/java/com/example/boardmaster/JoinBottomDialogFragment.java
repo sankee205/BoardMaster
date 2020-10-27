@@ -55,8 +55,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 if(currentUser.isUserLogedIn()){
-                    purchaseItem(id);
-                    Toast.makeText(getActivity(),"Email Sent to owner", Toast.LENGTH_SHORT).show();
+                    joinGame(id);
                 }
                 else{
                     Toast.makeText(getActivity(),"Please login or register", Toast.LENGTH_SHORT).show();
@@ -75,9 +74,9 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         this.description = description;
         this.players = players;
     }
-    public boolean purchaseItem(String itemid){
+    public boolean joinGame(String itemid){
         String userToken = CurrentUser.getInstance().getToken();
-        Call<ResponseBody> call = api.purchaseItem(userToken,itemid);
+        Call<ResponseBody> call = api.joinGame(userToken,itemid);
 
         call.enqueue(new Callback<ResponseBody>(){
             @Override
@@ -87,6 +86,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
                     return;
                 }
                 if(response.isSuccessful()){
+                    Toast.makeText(getActivity(),"Game Joined", Toast.LENGTH_SHORT).show();
                     mBuyButton.setVisibility(View.GONE);
                 }
 

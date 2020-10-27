@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment{
                 if(!response.isSuccessful()){
                     System.out.println("code:"+response.code());
                     return;
-                }
+                }join
                 ArrayList<BoardGame> boardgames = response.body();
                 ArrayList<String> boardgamelist = new ArrayList<>();
 
@@ -96,7 +96,6 @@ public class HomeFragment extends Fragment{
                     boardgamelist.add(boardgames.get(i).getName());
                 }
                 CurrentUser.getInstance().setGameList(boardgamelist);
-                System.out.println("board games: "+ boardgamelist);
 
 
             }
