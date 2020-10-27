@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +27,9 @@ import com.example.boardmaster.retrofit.ApiClient;
 import com.example.boardmaster.retrofit.ExifUtil;
 import com.example.boardmaster.retrofit.JsonPlaceHolderApi;
 import com.example.boardmaster.retrofit.Utility;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -49,7 +53,7 @@ import retrofit2.Response;
 
 public class EditProfileActivity extends AppCompatActivity {
     JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
-    TextView backButton;
+    TextView backButton, mProfilePictureText;
     EditText mFirstname, mLastname, mUsername, mEmail;
 
     ImageView imageView;
@@ -68,6 +72,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private CurrentUser currentUser = CurrentUser.getInstance();
 
+    private StorageReference mStorageRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,9 @@ public class EditProfileActivity extends AppCompatActivity {
         addBook = findViewById(R.id.editProfileSaveButton);
         takePhoto = findViewById(R.id.editProfileImageButton);
         backButton = findViewById(R.id.editProfileCancelButton);
+        mProfilePictureText = findViewById(R.id.editProfilePictureText);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         getInfo();
 
@@ -137,8 +146,15 @@ public class EditProfileActivity extends AppCompatActivity {
                     String lastname = jsonObject.getString("lastname") ;
                     String uname = jsonObject.getString("username");
                     String email = jsonObject.getString("email");
+                    if(jsonObject.getJSONArray("profileImages").length()>0){
+                        String id = jsonObject.getJSONArray("profileImages").getJSONObject(0).getString("id");
+                        getFirebasePhoto(id);
+                    }
+                    else{
+                        imageView.setImageResource(R.drawable.icon_profile_foreground);
+                        mProfilePictureText.setText("Add profile picture");
+                    }
                     System.out.println(jsonObject);
-                    imageView.setImageResource(R.drawable.icon_profile_foreground);
                     mFirstname.setText(firstname);
                     mLastname.setText(lastname);
                     mUsername.setText(uname);
@@ -306,4 +322,21 @@ public class EditProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
+    public void getFirebasePhoto(String id){
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StorageReference image = mStorageRef.child("images/" + id);
+
+        image.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+    }
 }
