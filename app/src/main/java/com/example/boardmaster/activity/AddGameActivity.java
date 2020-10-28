@@ -112,7 +112,7 @@ public class AddGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int hour = 12;
-                int minute = 00;
+                int minute = 0;
                 TimePickerDialog timePickerDialog = new TimePickerDialog(AddGameActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth,onTimeSetListener, hour, minute,true);
                 timePickerDialog.show();
             }
@@ -121,7 +121,13 @@ public class AddGameActivity extends AppCompatActivity {
         onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                String time = i + ":"+ i1;
+                String time;
+                if(i1 ==0){
+                    time = i + ":00";
+                }
+                else{
+                    time = i + ":"+ i1;
+                }
                 mTime.setText(time);
             }
         };

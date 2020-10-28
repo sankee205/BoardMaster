@@ -111,11 +111,11 @@
 
         <TextView
             android:id="@+id/popUpGameDate"
-            android:layout_width="56dp"
+            android:layout_width="80dp"
             android:layout_height="29dp"
             android:layout_above="@+id/popUpGameTitle"
-            android:layout_marginEnd="1dp"
-            android:layout_marginRight="1dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:layout_toStartOf="@+id/popUpGameTime"
             android:layout_toLeftOf="@+id/popUpGameTime"
