@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/listGroupName"
-            android:layout_width="wrap_content"
+            android:layout_width="222dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
@@ -26,61 +26,15 @@
             android:textColor="#000000"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/listGamePlayers"
-            android:layout_width="116dp"
-            android:layout_height="77dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:text="Players"
-            android:textStyle="italic" />
-
         <ImageView
             android:id="@+id/listGroupImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:src="@drawable/ic_menu_gallery" />
-
-        <TextView
-            android:id="@+id/listGameTitle"
-            android:layout_width="144dp"
-            android:layout_height="60dp"
-            android:layout_below="@+id/listGroupName"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="22dp"
-            android:layout_marginEnd="130dp"
-            android:layout_marginRight="130dp"
-            android:layout_toEndOf="@+id/listGroupImage"
-            android:layout_toRightOf="@+id/listGroupImage"
-            android:text="Title" />
-
-        <TextView
-            android:id="@+id/listGameMembers"
-            android:layout_width="102dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/listGamePlayers"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="174dp"
-            android:layout_marginLeft="174dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginRight="7dp"
-            android:layout_marginBottom="83dp"
-            android:layout_toEndOf="@+id/listGroupImage"
-            android:layout_toRightOf="@+id/listGroupImage"
-            android:text="GameMembers:"
-            android:textColor="#020101" />
 
         <TextView
             android:id="@+id/listGroupDate"
@@ -89,7 +43,7 @@
             android:layout_below="@+id/listGroupName"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="13dp"
             android:layout_toEndOf="@+id/listGroupImage"
             android:layout_toRightOf="@+id/listGroupImage"
             android:text="Date " />
@@ -99,12 +53,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/listGroupName"
-            android:layout_marginStart="120dp"
-            android:layout_marginLeft="120dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="44dp"
             android:layout_toEndOf="@+id/listGroupImage"
             android:layout_toRightOf="@+id/listGroupImage"
             android:text="Time" />
+
+        <ImageView
+            android:id="@+id/listGroupInfoButton"
+            android:layout_width="46dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            app:srcCompat="@android:drawable/ic_menu_info_details" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

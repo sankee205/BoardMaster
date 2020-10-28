@@ -1,12 +1,8 @@
 package com.example.boardmaster.retrofit;
 
-import com.example.boardmaster.BoardGame;
-import com.example.boardmaster.Game;
+import com.example.boardmaster.game.BoardGame;
+import com.example.boardmaster.game.Game;
 import com.example.boardmaster.Photo;
-import com.example.boardmaster.User;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -15,10 +11,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -92,6 +85,10 @@ public interface JsonPlaceHolderApi {
     @GET("boardmaster/games")
     Call<ArrayList<Game>>listGames();
 
+    @Headers("Content-Type:application/json")
+    @GET("boardmaster/usersgames")
+    Call<ArrayList<Game>>listUsersGames(@Header("Authorization") String token);
+
 
     @Headers("Content-Type:application/json")
     @GET("boardmaster/boardgames")
@@ -124,28 +121,7 @@ public interface JsonPlaceHolderApi {
     Call<ResponseBody> addBoardGames(@Header("Authorization") String token,
                                 @PartMap Map<String, RequestBody> data,
                                 @Part MultipartBody.Part image
-                                     /**
-                                      * if(imagePath == null){
-                                      *             Map<String, RequestBody> itemsData = new HashMap<>();
-                                      *
-                                      *             itemsData.put("title", createPartFromString(title));
-                                      *             itemsData.put("desc", createPartFromString(description));
-                                      *             itemsData.put("price", createPartFromString(price));
-                                      *             call = jsonPlaceHolderApi.addGame(token,itemsData);
-                                      *         }
-                                      *         else{
-                                      *             File file = new File(imagePath);
-                                      *             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-                                      *             MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
-                                      *
-                                      *             Map<String, RequestBody> itemsData = new HashMap<>();
-                                      *
-                                      *             itemsData.put("title", createPartFromString(title));
-                                      *             itemsData.put("desc", createPartFromString(description));
-                                      *             itemsData.put("price", createPartFromString(price));
-                                      *             call = jsonPlaceHolderApi.addGames(token,itemsData, body);
-                                      *         }
-                                      */
+
     );
     @Multipart
     @POST("boardmaster/add-boardgame")
@@ -158,4 +134,11 @@ public interface JsonPlaceHolderApi {
     @POST("boardmaster/image{name}")
     Call<Photo>getPhoto(@Query("name") String name);
 
+
+    //-------------------------------Message_Group--------------------------------------------------
+
+
+    @Headers("Content-Type:application/json")
+    @GET("chat/create_group")
+    Call<ResponseBody>createGroup(@Header("Authorization") String token);
 }

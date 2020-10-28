@@ -32,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.boardmaster.CurrentUser;
 import com.example.boardmaster.R;
+import com.example.boardmaster.User;
 import com.example.boardmaster.retrofit.ApiClient;
 import com.example.boardmaster.retrofit.ExifUtil;
 import com.example.boardmaster.retrofit.JsonPlaceHolderApi;
@@ -250,9 +251,38 @@ public class AddGameActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void createGroup(ArrayList<User> players) {
+        Call<ResponseBody> call;
+
+        call = api.createGroup(currentUser.getToken());
+
+        call.enqueue(new Callback<ResponseBody>(){
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response){
+                if(!response.isSuccessful()){
+                    System.out.println("code:"+response.code());
+
+                }
+                if(response.isSuccessful()){
+                    String responsebody = response.body().toString();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call,Throwable t){
+            }
+        });
+    }
+
+
+
+
     private RequestBody createPartFromString (String partString) {
         return RequestBody.create(MultipartBody.FORM, partString);
     }
+
 
 
 

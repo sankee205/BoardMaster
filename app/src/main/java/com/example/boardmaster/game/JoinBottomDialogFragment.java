@@ -1,4 +1,4 @@
-package com.example.boardmaster;
+package com.example.boardmaster.game;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.boardmaster.CurrentUser;
+import com.example.boardmaster.R;
 import com.example.boardmaster.retrofit.ApiClient;
 import com.example.boardmaster.retrofit.JsonPlaceHolderApi;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;

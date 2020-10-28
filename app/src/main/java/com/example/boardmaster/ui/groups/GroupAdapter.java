@@ -1,9 +1,10 @@
-package com.example.boardmaster.ui.home;
+package com.example.boardmaster.ui.groups;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,52 +13,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.boardmaster.game.Game;
-import com.example.boardmaster.game.JoinBottomDialogFragment;
 import com.example.boardmaster.R;
 import com.example.boardmaster.User;
+import com.example.boardmaster.game.Game;
+import com.example.boardmaster.game.JoinBottomDialogFragment;
+import com.example.boardmaster.message.MessageFragment;
+import com.example.boardmaster.ui.home.ItemAdapter;
 
 import java.util.ArrayList;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>{
+public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolder>{
     private Context mContext;
     private ArrayList<Game> games = new ArrayList<>();
     private LayoutInflater layoutInflater;
-    private OnItemListener mOnItemListener;
+    private ItemAdapter.OnItemListener mOnItemListener;
 
 
-    ItemAdapter(ArrayList data, OnItemListener onItemListener){
+    GroupAdapter(ArrayList data, ItemAdapter.OnItemListener onItemListener){
         games = data;
         this.mOnItemListener = onItemListener;
     }
 
     @NonNull
-    @Override
-    public AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GroupAdapter.AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.list_game_layout, parent, false);
-        return new AppViewHolder(view, mOnItemListener);
+        View view = layoutInflater.inflate(R.layout.list_group_layout, parent, false);
+        return new GroupAdapter.AppViewHolder(view, mOnItemListener);
     }
 
 
-    @Override
-    public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-        String title = games.get(position).getTitle();
-        holder.title.setText(title);
-
-        String game = games.get(position).getGameName();
-        holder.game.setText(game);
-
-        String date = games.get(position).getDate();
-        holder.date.setText(date);
-
-        String time = games.get(position).getTime();
-        holder.time.setText(time);
-
-        String description = games.get(position).getDescription();
-
+    public void onBindViewHolder(@NonNull GroupAdapter.AppViewHolder holder, int position) {
         String id = games.get(position).getId();
-
+        String title = games.get(position).getTitle();
+        String description = games.get(position).getDescription();
         ArrayList<User> playerlist = games.get(position).getPlayers();
         String players = "";
         for(int i = 0; i< playerlist.size(); i++){
@@ -66,11 +54,29 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
         }
         String finalPlayers = players;
-        holder.players.setText(finalPlayers);
 
+        String game = games.get(position).getGameName();
+        holder.game.setText(game);
+
+        String date = "Date: "+ games.get(position).getDate();
+        holder.date.setText(date);
+
+        String time = "Time: "+games.get(position).getTime();
+        holder.time.setText(time);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity)view.getContext();
+                MessageFragment fragment = new MessageFragment();
+                fragment.setParameters(id,game, date, time);
+                fragment.show(activity.getSupportFragmentManager(), "PurchaseBottomDialogFragment");
+                //activity.getSupportFragmentManager().beginTransaction().replace(R.id.itemsRecyclerView, fragment).addToBackStack(null).commit();
+            }
+        });
+
+        holder.infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
@@ -83,7 +89,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     }
 
-    @Override
     public int getItemCount() {
         if (games == null) {
             return 0;
@@ -94,18 +99,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
     public class AppViewHolder extends RecyclerView.ViewHolder{
         ImageView image;
         CardView cardView;
-        TextView game, title, time, date, players;
+        TextView game, time, date;
+        ImageView infoButton;
 
-        OnItemListener onItemListener;
+        ItemAdapter.OnItemListener onItemListener;
 
-        public AppViewHolder(@NonNull View itemView, OnItemListener onItemListener) {
+        public AppViewHolder(@NonNull View itemView, ItemAdapter.OnItemListener onItemListener) {
             super(itemView);
             game = itemView.findViewById(R.id.listGroupName);
             image = itemView.findViewById(R.id.listGroupImage);
-            title = itemView.findViewById(R.id.listGameTitle);
-            players = itemView.findViewById(R.id.listGamePlayers);
             date = itemView.findViewById(R.id.listGroupDate);
             time = itemView.findViewById(R.id.listGroupTime);
+            infoButton = itemView.findViewById(R.id.listGroupInfoButton);
             cardView = itemView.findViewById(R.id.gameListCard);
             this.onItemListener = onItemListener;
 
@@ -116,5 +121,4 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
     public interface OnItemListener{
         void onItemClick(int position);
     }
-
 }

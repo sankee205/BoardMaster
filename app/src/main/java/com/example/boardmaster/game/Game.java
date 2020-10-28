@@ -1,4 +1,6 @@
-package com.example.boardmaster;
+package com.example.boardmaster.game;
+
+import com.example.boardmaster.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

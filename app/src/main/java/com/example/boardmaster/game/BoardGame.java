@@ -1,4 +1,4 @@
-package com.example.boardmaster;
+package com.example.boardmaster.game;
 
 import com.example.boardmaster.Photo;
 import com.example.boardmaster.User;
