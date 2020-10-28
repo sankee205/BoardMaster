@@ -58,7 +58,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="22dp"
             android:layout_marginEnd="130dp"
             android:layout_marginRight="130dp"
             android:layout_toEndOf="@+id/listGameImage"
@@ -81,6 +81,30 @@
             android:layout_toRightOf="@+id/listGameImage"
             android:text="GameMembers:"
             android:textColor="#020101" />
+
+        <TextView
+            android:id="@+id/listGameDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listGameName"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@+id/listGameImage"
+            android:layout_toRightOf="@+id/listGameImage"
+            android:text="Date " />
+
+        <TextView
+            android:id="@+id/listGameTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listGameName"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@+id/listGameImage"
+            android:layout_toRightOf="@+id/listGameImage"
+            android:text="Time" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

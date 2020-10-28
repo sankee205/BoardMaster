@@ -1,11 +1,15 @@
 package com.example.boardmaster.activity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,11 +18,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -34,8 +40,10 @@ import com.example.boardmaster.retrofit.Utility;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +59,7 @@ import retrofit2.Response;
 
 public class AddGameActivity extends AppCompatActivity {
     JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
-    TextView backButton;
+    TextView backButton, mDate, mTime;
     EditText mTitle, mDescription, mPlayers;
 
     Spinner spinner;
@@ -75,6 +83,9 @@ public class AddGameActivity extends AppCompatActivity {
     private ArrayList gameList;
     private String game;
 
+    private DatePickerDialog.OnDateSetListener onDateSetListener;
+    private TimePickerDialog.OnTimeSetListener onTimeSetListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +104,56 @@ public class AddGameActivity extends AppCompatActivity {
         spinner = findViewById(R.id.searchableSpinner);
 
         gameList = currentUser.getGameList();
+
+        mDate = findViewById(R.id.addGameDate);
+        mTime = findViewById(R.id.addGameTime);
+
+        mTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int hour = 12;
+                int minute = 0;
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AddGameActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth,onTimeSetListener, hour, minute,true);
+                timePickerDialog.show();
+            }
+        });
+
+        onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                String time;
+                if(i1 ==0){
+                    time = i + ":00";
+                }
+                else{
+                    time = i + ":"+ i1;
+                }
+                mTime.setText(time);
+            }
+        };
+
+        mDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(AddGameActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,onDateSetListener, year, month, day);
+                dialog.getWindow().setBackgroundDrawable( new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                String date = i + "." + i1 + "."+ i2;
+                mDate.setText(date);
+            }
+        };
+
 
         spinner.setAdapter(new ArrayAdapter<>(AddGameActivity.this, R.layout.support_simple_spinner_dropdown_item, gameList));
 
@@ -131,9 +192,11 @@ public class AddGameActivity extends AppCompatActivity {
                     String title = mTitle.getText().toString();
                     String description = mDescription.getText().toString();
                     String price = mPlayers.getText().toString();
+                    String date = mDate.getText().toString();
+                    String time = mTime.getText().toString();
 
 
-                    addItem(game, title, description, price, imagePath);
+                    addItem(game, title, description, price, date, time, imagePath);
                 }
                 else{
                     Toast.makeText(AddGameActivity.this,"Please Login First", Toast.LENGTH_SHORT).show();
@@ -145,13 +208,15 @@ public class AddGameActivity extends AppCompatActivity {
 
 
     }
-    public void addItem(String game, String title,String description,String players, String imagePath) {
+    public void addItem(String game, String title,String description,String players, String date, String time, String imagePath) {
         Map<String, RequestBody> itemsData = new HashMap<>();
 
         itemsData.put("game", createPartFromString(game));
         itemsData.put("title", createPartFromString(title));
         itemsData.put("desc", createPartFromString(description));
         itemsData.put("players", createPartFromString(players));
+        itemsData.put("date", createPartFromString(date));
+        itemsData.put("time", createPartFromString(time));
         Call<ResponseBody> call;
         if (imagePath == null) {
             call = api.addGame(currentUser.getToken(), itemsData, null);

@@ -22,7 +22,7 @@ import retrofit2.Response;
 public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
     private JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     private CurrentUser currentUser = CurrentUser.getInstance();
-    private TextView mGame, mPlayers, mTitle, mDescription, mGameMembers;
+    private TextView mGame, mPlayers, mTitle, mDescription, mGameMembers, mDate, mTime;
     private Button mBuyButton;
 
     private String id;
@@ -30,6 +30,8 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
     private String title;
     private String description;
     private String players;
+    private String date;
+    private String time;
 
 
     public JoinBottomDialogFragment(){
@@ -46,11 +48,15 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         mDescription = view.findViewById(R.id.popUpGameDescription);
         mBuyButton = view.findViewById(R.id.joinButton);
         mGameMembers = view.findViewById(R.id.popUpGamePlayerText);
+        mDate = view.findViewById(R.id.popUpGameDate);
+        mTime = view.findViewById(R.id.popUpGameTime);
 
         mGame.setText(game);
         mTitle.setText(title);
         mDescription.setText(description);
         mPlayers.setText(players);
+        mDate.setText(date);
+        mTime.setText(time);
         mGameMembers.setText("GameMembers: ");
 
         if(CurrentUser.getInstance().isUserLogedIn()){
@@ -88,12 +94,15 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         return view;
 
     }
-    public void setParameters(String id, String game, String title, String description, String players){
+    public void setParameters(String id, String game, String title, String description, String players, String date, String time){
         this.id = id;
         this.game = game;
         this.title = title;
         this.description = description;
         this.players = players;
+        this.date = date;
+        this.time = time;
+
     }
     public boolean joinGame(String itemid){
         String userToken = CurrentUser.getInstance().getToken();

@@ -11,12 +11,30 @@ public class Game {
     String gameName;
     String title;
     String description;
+    String date;
+    String time;
     int maxPlayers;
 
     ArrayList<User> players;
 
     public String getId() {
         return id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public void setId(String id) {

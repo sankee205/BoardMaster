@@ -53,6 +53,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         String game = games.get(position).getGameName();
         holder.game.setText(game);
 
+        String date = games.get(position).getDate();
+        holder.date.setText(date);
+
+        String time = games.get(position).getTime();
+        holder.time.setText(time);
+
         String description = games.get(position).getDescription();
 
         String id = games.get(position).getId();
@@ -74,7 +80,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
                 JoinBottomDialogFragment fragment = new JoinBottomDialogFragment();
-                fragment.setParameters(id,game,title, description, finalPlayers);
+                fragment.setParameters(id,game,title, description, finalPlayers, date, time);
                 fragment.show(activity.getSupportFragmentManager(), "PurchaseBottomDialogFragment");
                 //activity.getSupportFragmentManager().beginTransaction().replace(R.id.itemsRecyclerView, fragment).addToBackStack(null).commit();
             }
@@ -93,7 +99,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
     public class AppViewHolder extends RecyclerView.ViewHolder{
         ImageView image;
         CardView cardView;
-        TextView game, title, description, players;
+        TextView game, title, time, date, players;
 
         OnItemListener onItemListener;
 
@@ -103,6 +109,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
             image = itemView.findViewById(R.id.listGameImage);
             title = itemView.findViewById(R.id.listGameTitle);
             players = itemView.findViewById(R.id.listGamePlayers);
+            date = itemView.findViewById(R.id.listGameDate);
+            time = itemView.findViewById(R.id.listGameTime);
             cardView = itemView.findViewById(R.id.gameListCard);
             this.onItemListener = onItemListener;
 
