@@ -43,14 +43,15 @@ public class GroupsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        listView = inflater.inflate(R.layout.fragment_home, container, false);
+        listView = inflater.inflate(R.layout.fragment_groups, container, false);
 
-        recyclerView = listView.findViewById(R.id.gamesRecyclerView);
+        recyclerView = listView.findViewById(R.id.groupsRecyclerView);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         setItemsList();
         adapter = new GroupAdapter(items, onItemListener);
         recyclerView.setAdapter(adapter);
+
         return listView;
     }
 

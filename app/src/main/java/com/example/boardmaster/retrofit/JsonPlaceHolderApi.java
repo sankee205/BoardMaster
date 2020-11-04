@@ -1,10 +1,14 @@
 package com.example.boardmaster.retrofit;
 
+import com.example.boardmaster.User;
 import com.example.boardmaster.game.BoardGame;
 import com.example.boardmaster.game.Game;
 import com.example.boardmaster.Photo;
+import com.example.boardmaster.message.Conversation;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -12,6 +16,8 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -109,9 +115,9 @@ public interface JsonPlaceHolderApi {
 
     @Multipart
     @POST("boardmaster/add-game")
-    Call<ResponseBody> addGame(@Header("Authorization") String token,
-                               @PartMap Map<String, RequestBody> data,
-                               @Part MultipartBody.Part image
+    Call<Object> addGame(@Header("Authorization") String token,
+                       @PartMap Map<String, RequestBody> data,
+                       @Part MultipartBody.Part image
 
     );
 
@@ -138,7 +144,28 @@ public interface JsonPlaceHolderApi {
     //-------------------------------Message_Group--------------------------------------------------
 
 
-    @Headers("Content-Type:application/json")
-    @GET("chat/create_group")
-    Call<ResponseBody>createGroup(@Header("Authorization") String token);
+
+
+
+    @Multipart
+    @POST("chat/send")
+    Call<ResponseBody>sendMessage(@Header("Authorization") String token,
+                                  @PartMap Map<String, RequestBody> data,
+                                  @Part MultipartBody.Part image);
+
+    //--------------------------------CONVERSATION--------------------------------------------------
+    @FormUrlEncoded
+    @POST("conversation/createconversation")
+    Call<Object>createConversation(@Header("Authorization") String token,
+                                   @Field("recipients") List<User> recipients,
+                                   @Field("game") Game game);
+
+    @FormUrlEncoded
+    @POST("conversation/updateconversation")
+    Call<Object>updateRecipients(@Header("Authorization") String token,
+                                   @Field("recipients") List<User> recipients);
+
+
+
+
 }

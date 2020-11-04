@@ -1,6 +1,8 @@
 package com.example.boardmaster.ui.home;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +14,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.boardmaster.Photo;
 import com.example.boardmaster.game.Game;
 import com.example.boardmaster.game.JoinBottomDialogFragment;
 import com.example.boardmaster.R;
 import com.example.boardmaster.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>{
     private Context mContext;
     private ArrayList<Game> games = new ArrayList<>();
     private LayoutInflater layoutInflater;
     private OnItemListener mOnItemListener;
+    private StorageReference mStorageRef;
 
 
-    ItemAdapter(ArrayList data, OnItemListener onItemListener){
+
+    ItemAdapter(ArrayList<Game> data, OnItemListener onItemListener){
         games = data;
         this.mOnItemListener = onItemListener;
     }
@@ -42,6 +56,32 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
+        try{
+            Photo photo = games.get(position).getProfileImages().get(0);
+            if(games.get(position).getProfileImages().size()>0){
+                String photoid = photo.getId();
+
+                File localFile = null;
+                try {
+                    localFile = File.createTempFile("images", "jpg");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                StorageReference image = mStorageRef.child("images/" + photoid);
+
+                image.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        holder.image.setImageBitmap(bitmap);
+
+                    }
+                });
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
         String title = games.get(position).getTitle();
         holder.title.setText(title);
 
@@ -67,6 +107,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         }
         String finalPlayers = players;
         holder.players.setText(finalPlayers);
+
+
 
 
 
@@ -108,6 +150,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
             time = itemView.findViewById(R.id.listGroupTime);
             cardView = itemView.findViewById(R.id.gameListCard);
             this.onItemListener = onItemListener;
+            mStorageRef = FirebaseStorage.getInstance().getReference();
+
 
         }
 
@@ -116,5 +160,4 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
     public interface OnItemListener{
         void onItemClick(int position);
     }
-
 }

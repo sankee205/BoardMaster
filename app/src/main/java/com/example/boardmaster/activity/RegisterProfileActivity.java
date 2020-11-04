@@ -82,7 +82,6 @@ public class RegisterProfileActivity extends AppCompatActivity {
 
     private CurrentUser currentUser = CurrentUser.getInstance();
 
-    private Uri contentUri;
     private StorageReference mStorageRef;
 
 
@@ -174,8 +173,6 @@ public class RegisterProfileActivity extends AppCompatActivity {
             MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
 
             call = api.createUser(itemsData, body);
-
-            contentUri = Uri.fromFile(file);
         }
 
         call.enqueue(new Callback<Object>(){
@@ -199,7 +196,7 @@ public class RegisterProfileActivity extends AppCompatActivity {
                                 String id = photo.getString("id");
                                 System.out.println("id: " +id);
 
-                                uploadImageToFirebase(contentUri, id);
+                                uploadImageToFirebase(imagePath, id);
                             }
                         }
                     } catch (JSONException e) {

@@ -1,6 +1,8 @@
 package com.example.boardmaster.game;
 
+import com.example.boardmaster.Photo;
 import com.example.boardmaster.User;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,6 +18,24 @@ public class Game {
     String date;
     String time;
     int maxPlayers;
+    User gameOwner;
+    List<Photo> profileImages = new ArrayList<>();
+
+    public List<Photo> getProfileImages() {
+        return profileImages;
+    }
+
+    public void setProfileImages(List<Photo> profileImages) {
+        this.profileImages = profileImages;
+    }
+
+    public User getGameOwner() {
+        return gameOwner;
+    }
+
+    public void setGameOwner(User gameOwner) {
+        this.gameOwner = gameOwner;
+    }
 
     ArrayList<User> players;
 
