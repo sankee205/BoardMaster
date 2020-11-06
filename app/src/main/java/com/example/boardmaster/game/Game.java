@@ -7,15 +7,17 @@ import com.google.gson.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Game {
-    String id;
+    Long id;
     String gameName;
     String title;
     String description;
-    String date;
+    Date date;
     String time;
     int maxPlayers;
     User gameOwner;
@@ -39,15 +41,15 @@ public class Game {
 
     ArrayList<User> players;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -59,7 +61,7 @@ public class Game {
         this.time = time;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

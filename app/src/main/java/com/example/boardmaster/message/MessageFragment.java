@@ -53,7 +53,7 @@ public class MessageFragment extends BottomSheetDialogFragment {
     private TextView textToSend;
     private ImageButton sendButton;
 
-    private String id;
+    private Long id;
     private String game;
     private String date;
     private String time;
@@ -77,8 +77,7 @@ public class MessageFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 String message = textToSend.getText().toString();
-                String conversationid = CurrentUser.getInstance().getUser().getUsername()+ game;
-                sendMessage(message, conversationid);
+                getconversationid(message);
             }
         });
 
@@ -86,7 +85,7 @@ public class MessageFragment extends BottomSheetDialogFragment {
 
     }
 
-    public void setParameters(String id, String game, String date, String time){
+    public void setParameters(Long id, String game, String date, String time){
         this.id = id;
         this.game = game;
         this.date = date;
@@ -180,5 +179,41 @@ public class MessageFragment extends BottomSheetDialogFragment {
                         System.out.println(exception.getMessage());
                     }
                 });
+    }
+
+    public void getconversationid(String message){
+        String userToken = currentUser.getToken();
+
+        Call<Object> call = api.getConversation(userToken, id);
+
+        call.enqueue(new Callback<Object>(){
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response){
+                if(!response.isSuccessful()){
+                    System.out.println("code:"+response.code());
+                    Toast.makeText(getContext(),"Sending message failed", Toast.LENGTH_SHORT).show();
+                }
+                if(response.isSuccessful()){
+                    Object somResponse = response.body();
+                    System.out.println("response: "+somResponse);
+                    String json=new Gson().toJson(response.body());
+                    JSONObject jsonObject= null;
+                    try {
+                        jsonObject = new JSONObject(json);
+                        String conversationid = jsonObject.getString("id");
+                        sendMessage(message, conversationid);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call,Throwable t){
+            }
+        });
     }
 }

@@ -105,7 +105,7 @@ public interface JsonPlaceHolderApi {
     @Headers("Content-Type:application/json")
     @PUT("boardmaster/joingame")
     Call<ResponseBody>joinGame(@Header("Authorization") String token,
-                                   @Query("gameid") String gameid);
+                                   @Query("gameid") Long gameid);
 
     @Headers("Content-Type:application/json")
     @DELETE("boardmaster/exitgame")
@@ -157,13 +157,19 @@ public interface JsonPlaceHolderApi {
     @FormUrlEncoded
     @POST("conversation/createconversation")
     Call<Object>createConversation(@Header("Authorization") String token,
-                                   @Field("recipients") List<User> recipients,
-                                   @Field("game") Game game);
+                                   @Field("game") Long game);
 
     @FormUrlEncoded
     @POST("conversation/updateconversation")
     Call<Object>updateRecipients(@Header("Authorization") String token,
-                                   @Field("recipients") List<User> recipients);
+                                 @Field("recipients") List<User> recipients);
+
+
+    @GET("conversation/getconversationgame")
+    Call<Object>getConversation(@Header("Authorization") String token,
+                                 @Query("gameid") Long gameid);
+
+
 
 
 

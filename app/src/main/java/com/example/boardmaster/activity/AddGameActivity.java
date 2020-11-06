@@ -58,6 +58,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -211,25 +213,33 @@ public class AddGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(currentUser.isUserLogedIn()){
+                    DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
                     String title = mTitle.getText().toString();
                     String description = mDescription.getText().toString();
                     String price = mPlayers.getText().toString();
-                    String date = mDate.getText().toString();
-                    String time = mTime.getText().toString();
+                    String dates = mDate.getText().toString();
+                    Date date = null;
+                    String timestring = mTime.getText().toString();
+
+                    try {
+                        date = dateFormat.parse(dates);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     Game thisgame = new Game();
                     thisgame.setDate(date);
                     thisgame.setDescription(description);
                     thisgame.setGameName(title);
                     thisgame.setGameOwner(currentUser.getUser());
                     thisgame.setMaxPlayers(Integer.parseInt(price));
-                    thisgame.setTime(time);
+                    thisgame.setTime(timestring);
 
 
                     String id = currentUser.getUser().getUsername() +" " +game;
+                    addItem(game, title, description, price, dates, timestring);
 
-                    addItem(game, title, description, price, date, time);
 
-                    createConversation(thisgame);
                 }
                 else{
                     Toast.makeText(AddGameActivity.this,"Please Login First", Toast.LENGTH_SHORT).show();
@@ -242,6 +252,7 @@ public class AddGameActivity extends AppCompatActivity {
 
     }
     public void addItem(String game, String title,String description,String players, String date, String time) {
+        boolean picture;
         String imagePath = getPath(imageUri);
         Map<String, RequestBody> itemsData = new HashMap<>();
         String token = currentUser.getToken();
@@ -255,6 +266,7 @@ public class AddGameActivity extends AppCompatActivity {
         Call<Object> call;
         if (imagePath == null) {
             call = api.addGame(token, itemsData, null);
+            picture = false;
         }
         else{
             File file = new File(imagePath);
@@ -262,6 +274,7 @@ public class AddGameActivity extends AppCompatActivity {
             MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
 
             call = api.addGame(token,itemsData, body);
+            picture = true;
         }
 
         call.enqueue(new Callback<Object>(){
@@ -278,15 +291,18 @@ public class AddGameActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject=new JSONObject(json);
                         JSONArray photoList = jsonObject.getJSONArray("profileImages");
-
-                        if(photoList.length() > 0){
-                            for(int i = 0; i < photoList.length(); i ++){
-                                JSONObject photo = photoList.getJSONObject(i);
-                                String id = photo.getString("id");
-                                System.out.println("id: " +id);
-                                uploadImageToFirebase(imageUri, id);
+                        createConversation(jsonObject.getLong("id"));
+                        if(picture){
+                            if(photoList.length() > 0){
+                                for(int i = 0; i < photoList.length(); i ++){
+                                    JSONObject photo = photoList.getJSONObject(i);
+                                    String id = photo.getString("id");
+                                    System.out.println("id: " +id);
+                                    uploadImageToFirebase(imageUri, id);
+                                }
                             }
                         }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -450,11 +466,8 @@ public class AddGameActivity extends AppCompatActivity {
                 });
     }
 
-    private void createConversation(Game thisgame){
-        List<User> recipients = new ArrayList<>();
-        recipients.add(currentUser.getUser());
-
-        Call<Object> call = api.createConversation(currentUser.getToken(), recipients, thisgame);
+    private void createConversation(Long thisgameid){
+        Call<Object> call = api.createConversation(currentUser.getToken(),thisgameid);
 
 
         call.enqueue(new Callback<Object>(){

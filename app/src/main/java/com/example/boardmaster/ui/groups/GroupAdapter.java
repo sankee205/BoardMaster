@@ -82,7 +82,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolde
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-        String id = games.get(position).getId();
+        Long id = games.get(position).getId();
         String title = games.get(position).getTitle();
         String description = games.get(position).getDescription();
         ArrayList<User> playerlist = games.get(position).getPlayers();
@@ -97,10 +97,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolde
         String game = games.get(position).getGameName();
         holder.game.setText(game);
 
-        String date = "Date: "+ games.get(position).getDate();
+        String date = "Date: "+ games.get(position).getDate().toString();
         holder.date.setText(date);
 
-        String time = "Time: "+games.get(position).getTime();
+        String time = "Time: "+games.get(position).getTime().toString();
         holder.time.setText(time);
 
 

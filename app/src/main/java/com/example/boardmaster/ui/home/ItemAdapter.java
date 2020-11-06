@@ -28,7 +28,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>{
@@ -88,15 +90,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         String game = games.get(position).getGameName();
         holder.game.setText(game);
 
-        String date = games.get(position).getDate();
-        holder.date.setText(date);
+        String date = games.get(position).getDate().toString();
+        holder.date.setText(date.toString());
 
-        String time = games.get(position).getTime();
-        holder.time.setText(time);
+        String time = games.get(position).getTime().toString();
+        holder.time.setText(time.toString());
 
         String description = games.get(position).getDescription();
 
-        String id = games.get(position).getId();
+        Long id = games.get(position).getId();
 
         ArrayList<User> playerlist = games.get(position).getPlayers();
         String players = "";
