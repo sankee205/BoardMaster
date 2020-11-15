@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.boardmaster.CurrentUser;
 import com.example.boardmaster.FragmentListener;
 import com.example.boardmaster.R;
+import com.example.boardmaster.activity.MainActivity;
 import com.example.boardmaster.activity.RegisterProfileActivity;
 import com.example.boardmaster.retrofit.ApiClient;
 import com.example.boardmaster.retrofit.JsonPlaceHolderApi;
@@ -87,10 +89,10 @@ public class LoginFragment extends Fragment {
                         CurrentUser.getInstance().setUserLogedIn(true);
                         String jwtoken = "Bearer "+response.body().string();
                         CurrentUser.getInstance().setToken(jwtoken);
-                        mLoginText.setText("Login successful");
-                        mUsername.setVisibility(View.GONE);
-                        mPassword.setVisibility(View.GONE);
-                        mLoginButton.setVisibility(View.GONE);
+
+                        Toast.makeText(getActivity(),"Login Successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity().getApplicationContext(), MainActivity.class));
+                        getActivity().finish();
 
 
                     } catch (IOException e) {

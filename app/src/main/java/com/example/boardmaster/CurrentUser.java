@@ -10,7 +10,6 @@ public class CurrentUser {
     private static boolean userLogedIn;
     private static ArrayList<String> gameList;
     private static String group;
-
     public static CurrentUser getInstance() {
         if (instance == null) {
             instance = new CurrentUser();

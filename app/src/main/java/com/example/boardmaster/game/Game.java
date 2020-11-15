@@ -1,23 +1,47 @@
-package com.example.boardmaster;
+package com.example.boardmaster.game;
+
+import com.example.boardmaster.Photo;
+import com.example.boardmaster.User;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Game {
-    String id;
+    Long id;
     String gameName;
     String title;
     String description;
     String date;
     String time;
     int maxPlayers;
+    User gameOwner;
+    List<Photo> profileImages = new ArrayList<>();
+
+    public List<Photo> getProfileImages() {
+        return profileImages;
+    }
+
+    public void setProfileImages(List<Photo> profileImages) {
+        this.profileImages = profileImages;
+    }
+
+    public User getGameOwner() {
+        return gameOwner;
+    }
+
+    public void setGameOwner(User gameOwner) {
+        this.gameOwner = gameOwner;
+    }
 
     ArrayList<User> players;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -37,7 +61,7 @@ public class Game {
         this.time = time;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

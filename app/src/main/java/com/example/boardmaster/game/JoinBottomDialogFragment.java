@@ -1,4 +1,4 @@
-package com.example.boardmaster;
+package com.example.boardmaster.game;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,9 +10,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.boardmaster.CurrentUser;
+import com.example.boardmaster.R;
 import com.example.boardmaster.retrofit.ApiClient;
 import com.example.boardmaster.retrofit.JsonPlaceHolderApi;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.sql.Time;
+import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -25,7 +30,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
     private TextView mGame, mPlayers, mTitle, mDescription, mGameMembers, mDate, mTime;
     private Button mBuyButton;
 
-    private String id;
+    private Long id;
     private String game;
     private String title;
     private String description;
@@ -55,8 +60,8 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         mTitle.setText(title);
         mDescription.setText(description);
         mPlayers.setText(players);
-        mDate.setText(date);
-        mTime.setText(time);
+        mDate.setText(date.toString());
+        mTime.setText(time.toString());
         mGameMembers.setText("GameMembers: ");
 
         if(CurrentUser.getInstance().isUserLogedIn()){
@@ -94,7 +99,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         return view;
 
     }
-    public void setParameters(String id, String game, String title, String description, String players, String date, String time){
+    public void setParameters(Long id, String game, String title, String description, String players, String date, String time){
         this.id = id;
         this.game = game;
         this.title = title;
@@ -104,7 +109,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         this.time = time;
 
     }
-    public boolean joinGame(String itemid){
+    public boolean joinGame(Long itemid){
         String userToken = CurrentUser.getInstance().getToken();
         Call<ResponseBody> call = api.joinGame(userToken,itemid);
 
