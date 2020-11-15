@@ -90,11 +90,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         String game = games.get(position).getGameName();
         holder.game.setText(game);
 
-        String date = games.get(position).getDate().toString();
-        holder.date.setText(date.toString());
+        String date = games.get(position).getDate();
+        holder.date.setText(date);
 
-        String time = games.get(position).getTime().toString();
-        holder.time.setText(time.toString());
+        String time = games.get(position).getTime();
+        holder.time.setText(time);
 
         String description = games.get(position).getDescription();
 

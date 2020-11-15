@@ -17,12 +17,12 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/messageToSend"
-            android:layout_width="354dp"
-            android:layout_height="55dp"
+            android:layout_width="292dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="176dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
             android:layout_marginBottom="8dp"
             android:layout_toStartOf="@+id/sendMessageButton"
             android:layout_toLeftOf="@+id/sendMessageButton"
@@ -40,6 +40,22 @@
             android:layout_marginBottom="12dp"
             app:srcCompat="@android:drawable/ic_menu_send" />
 
+        <ImageButton
+            android:id="@+id/photoMessageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginEnd="354dp"
+            android:layout_marginRight="354dp"
+            android:layout_marginBottom="12dp"
+            app:srcCompat="@drawable/ic_menu_camera" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/messageRecyclerView"
             android:layout_width="match_parent"
@@ -55,13 +71,26 @@
             android:layout_marginRight="0dp"
             android:layout_marginBottom="0dp" />
 
+        <ImageView
+            android:id="@+id/imageToSend"
+            android:layout_width="168dp"
+            android:layout_height="165dp"
+            android:layout_above="@+id/photoMessageButton"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            tools:srcCompat="@tools:sample/avatars"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/messageToolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/message_color"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -17,7 +17,7 @@ public class Game {
     String gameName;
     String title;
     String description;
-    Date date;
+    String date;
     String time;
     int maxPlayers;
     User gameOwner;
@@ -45,11 +45,11 @@ public class Game {
         return id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

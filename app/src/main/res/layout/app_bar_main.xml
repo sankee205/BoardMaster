@@ -15,7 +15,7 @@
             android:id="@+id/messageToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@drawable/background_color"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -30,15 +30,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:backgroundTint="@color/orange_1"
+        app:srcCompat="@drawable/icon_add_foreground"
+        tools:ignore="VectorDrawableCompat" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/editProfileSaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:focusable="true"
-        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/red"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="start|bottom"
         app:srcCompat="@drawable/icon_home_foreground"

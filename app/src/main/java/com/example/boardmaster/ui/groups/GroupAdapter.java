@@ -78,6 +78,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolde
                     }
                 });
             }
+            else{
+                holder.image.setImageResource(R.drawable.icon_home_foreground);
+            }
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -97,10 +100,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolde
         String game = games.get(position).getGameName();
         holder.game.setText(game);
 
-        String date = "Date: "+ games.get(position).getDate().toString();
+        String date = "Date: "+ games.get(position).getDate();
         holder.date.setText(date);
 
-        String time = "Time: "+games.get(position).getTime().toString();
+        String time = "Time: "+games.get(position).getTime();
         holder.time.setText(time);
 
 

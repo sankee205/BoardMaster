@@ -161,7 +161,7 @@ public class AddGameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
+                int month = cal.get(Calendar.MONTH) ;
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(AddGameActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,onDateSetListener, year, month, day);
@@ -172,8 +172,11 @@ public class AddGameActivity extends AppCompatActivity {
 
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                String date = i + "." + i1 + "."+ i2;
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                int d = day;
+                int m = month + 1;
+                int y = year;
+                String date = d + "/" + m + "/"+ y;
                 mDate.setText(date);
             }
         };
@@ -213,32 +216,22 @@ public class AddGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(currentUser.isUserLogedIn()){
-                    DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+
                     String title = mTitle.getText().toString();
                     String description = mDescription.getText().toString();
                     String price = mPlayers.getText().toString();
-                    String dates = mDate.getText().toString();
-                    Date date = null;
                     String timestring = mTime.getText().toString();
+                    String dates = mDate.getText().toString();
 
-                    try {
-                        date = dateFormat.parse(dates);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
                     Game thisgame = new Game();
-                    thisgame.setDate(date);
+                    thisgame.setDate(dates);
                     thisgame.setDescription(description);
                     thisgame.setGameName(title);
                     thisgame.setGameOwner(currentUser.getUser());
                     thisgame.setMaxPlayers(Integer.parseInt(price));
                     thisgame.setTime(timestring);
 
-
-                    String id = currentUser.getUser().getUsername() +" " +game;
                     addItem(game, title, description, price, dates, timestring);
-
 
                 }
                 else{
