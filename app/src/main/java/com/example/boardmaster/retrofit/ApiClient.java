@@ -8,8 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     //private static String localhost = "192.168.1.102"; //leiligheten
-    private static  String localhost = "10.24.89.2"; //skolen
-    //private static  String localhost = "10.0.0.21"; //bestemor
+    //private static  String localhost = "10.24.89.2"; //skolen
+    private static  String localhost = "10.0.0.21"; //bestemor
     //private static String localhost ="10.0.0.107"; //mamma
     //private static String localhost = "192.168.0.171"; //bebben
 
