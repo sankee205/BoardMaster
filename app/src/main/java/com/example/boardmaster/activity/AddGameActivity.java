@@ -8,11 +8,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,6 +59,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -101,6 +104,8 @@ public class AddGameActivity extends AppCompatActivity {
 
     private ArrayList gameList;
     private String game;
+    private String boardGameId;
+    private String photoId;
 
     private StorageReference mStorageRef;
 
@@ -131,6 +136,8 @@ public class AddGameActivity extends AppCompatActivity {
         mTime = findViewById(R.id.addGameTime);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
+
 
         mTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,6 +195,8 @@ public class AddGameActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 game = gameList.get(position).toString();
+                String boardGame = gameList.get(position).toString();
+                getPhotoId(boardGame);
             }
 
             @Override
@@ -258,9 +267,18 @@ public class AddGameActivity extends AppCompatActivity {
         itemsData.put("time", createPartFromString(time));
         Call<Object> call;
         if (imagePath == null) {
-            call = api.addGame(token, itemsData, null);
-            picture = false;
+            if(photoId != null){
+                call = api.addGame(token, itemsData, null);
+                itemsData.put("photoId", createPartFromString(photoId));
+                picture = false;
+            }
+            else{
+                call = api.addGame(token, itemsData, null);
+                picture = false;
+            }
+
         }
+
         else{
             File file = new File(imagePath);
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
@@ -279,7 +297,6 @@ public class AddGameActivity extends AppCompatActivity {
                 }
                 if(response.isSuccessful()){
                     Object somResponse = response.body();
-                    System.out.println("response: "+somResponse);
                     String json=new Gson().toJson(response.body());
                     try {
                         JSONObject jsonObject=new JSONObject(json);
@@ -290,7 +307,6 @@ public class AddGameActivity extends AppCompatActivity {
                                 for(int i = 0; i < photoList.length(); i ++){
                                     JSONObject photo = photoList.getJSONObject(i);
                                     String id = photo.getString("id");
-                                    System.out.println("id: " +id);
                                     uploadImageToFirebase(imageUri, id);
                                 }
                             }
@@ -446,7 +462,6 @@ public class AddGameActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 Toast.makeText(AddGameActivity.this,"Image Uploaded", Toast.LENGTH_SHORT).show();
-                                System.out.println("image uploaded to firebase");
                             }
                         });
                     }
@@ -472,7 +487,6 @@ public class AddGameActivity extends AppCompatActivity {
                 }
                 if(response.isSuccessful()){
                     Object somResponse = response.body();
-                    System.out.println("response: "+somResponse);
 
                 }
 
@@ -481,6 +495,57 @@ public class AddGameActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Object> call,Throwable t){
                 t.printStackTrace();
+            }
+        });
+    }
+
+    private void getBoardGamePhoto(String id){
+        photoId = id;
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StorageReference image = mStorageRef.child("images/" + id);
+
+        image.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageView.setImageBitmap(bitmap);
+
+            }
+        });
+    }
+
+    private void getPhotoId(String name){
+        Call<ResponseBody> call= api.getPhoto(name);
+
+        call.enqueue(new Callback<ResponseBody>(){
+            @Override
+            public void onResponse(Call<ResponseBody>call, Response<ResponseBody> response){
+                if(!response.isSuccessful()){
+                    System.out.println("code:"+response.code());
+                    return;
+                }
+                if(response.isSuccessful()){
+                    String id = null;
+                    try {
+                        id = response.body().string();
+                        getBoardGamePhoto(id);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody>call,Throwable t){
             }
         });
     }

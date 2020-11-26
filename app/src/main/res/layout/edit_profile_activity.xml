@@ -61,11 +61,12 @@
         android:id="@+id/editProfileSaveButton"
         android:layout_width="209dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Save Changes"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfilePassword" />
 
     <ImageView
         android:id="@+id/editProfileImage"
@@ -105,5 +106,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editProfileSaveButton" />
+
+    <EditText
+        android:id="@+id/editProfilePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileEmail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

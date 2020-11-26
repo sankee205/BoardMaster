@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if(CurrentUser.getInstance().getGroup()!=null){
-            System.out.println(CurrentUser.getInstance().getGroup());
             if("admin".compareToIgnoreCase(CurrentUser.getInstance().getGroup())==0){
                 addBoardGame.setVisibility(View.VISIBLE);
                 addBoardGame.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.nav_login, R.id.nav_groups)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_login, R.id.nav_groups, R.id.nav_calendar)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -157,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                     //user.setPhotos(photoList);
 
                     CurrentUser.getInstance().setUser(user);
-                    System.out.println("group is: "+group);
                     CurrentUser.getInstance().setGroup(group);
 
                     mUsername.setText(uname);
@@ -199,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         }
         StorageReference image = mStorageRef.child("images/" + id);
 
-        image.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        image.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

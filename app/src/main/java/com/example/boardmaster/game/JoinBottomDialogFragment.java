@@ -1,10 +1,13 @@
 package com.example.boardmaster.game;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,8 +17,13 @@ import com.example.boardmaster.CurrentUser;
 import com.example.boardmaster.R;
 import com.example.boardmaster.retrofit.ApiClient;
 import com.example.boardmaster.retrofit.JsonPlaceHolderApi;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Time;
 import java.util.Date;
 
@@ -29,6 +37,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
     private CurrentUser currentUser = CurrentUser.getInstance();
     private TextView mGame, mPlayers, mTitle, mDescription, mGameMembers, mDate, mTime;
     private Button mBuyButton;
+    private ImageView imageView;
 
     private Long id;
     private String game;
@@ -37,7 +46,9 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
     private String players;
     private String date;
     private String time;
+    private String photoID;
 
+    private StorageReference mStorageRef;
 
     public JoinBottomDialogFragment(){
     }
@@ -55,6 +66,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         mGameMembers = view.findViewById(R.id.popUpGamePlayerText);
         mDate = view.findViewById(R.id.popUpGameDate);
         mTime = view.findViewById(R.id.popUpGameTime);
+        imageView = view.findViewById(R.id.popUpGameImage);
 
         mGame.setText(game);
         mTitle.setText(title);
@@ -63,6 +75,11 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         mDate.setText(date.toString());
         mTime.setText(time.toString());
         mGameMembers.setText("GameMembers: ");
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        getBoardGamePhoto(photoID);
+
 
         if(CurrentUser.getInstance().isUserLogedIn()){
             if (players.contains(CurrentUser.getInstance().getUser().getUsername())){
@@ -99,7 +116,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         return view;
 
     }
-    public void setParameters(Long id, String game, String title, String description, String players, String date, String time){
+    public void setParameters(Long id, String game, String title, String description, String players, String date, String time, String photoId){
         this.id = id;
         this.game = game;
         this.title = title;
@@ -107,6 +124,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         this.players = players;
         this.date = date;
         this.time = time;
+        this.photoID = photoId;
 
     }
     public boolean joinGame(Long itemid){
@@ -135,4 +153,22 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         return true;
     }
 
+    private void getBoardGamePhoto(String id){
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StorageReference image = mStorageRef.child("images/" + id);
+
+        image.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageView.setImageBitmap(bitmap);
+
+            }
+        });
+    }
 }

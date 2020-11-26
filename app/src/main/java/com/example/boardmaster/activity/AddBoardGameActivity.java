@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,9 +30,21 @@ import com.example.boardmaster.retrofit.ApiClient;
 import com.example.boardmaster.retrofit.ExifUtil;
 import com.example.boardmaster.retrofit.JsonPlaceHolderApi;
 import com.example.boardmaster.retrofit.Utility;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +64,9 @@ import retrofit2.Response;
 public class AddBoardGameActivity extends AppCompatActivity {
     JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
 
+    private StorageReference mStorageRef;
+
+
     TextView homeButton;
     EditText mName, mPlayers;
 
@@ -63,7 +80,7 @@ public class AddBoardGameActivity extends AppCompatActivity {
 
     String userChoosenTask;
 
-    private static String imagePath;
+    private Uri imagePath;
 
     List<File> photoFiles = new ArrayList<>();
     File currentPhoto;
@@ -83,8 +100,13 @@ public class AddBoardGameActivity extends AppCompatActivity {
         mName = findViewById(R.id.editProfileFirstName);
         mPlayers = findViewById(R.id.editProfileEmail);
 
+        imageView = findViewById(R.id.editProfileImage);
+
         addBoardGame = findViewById(R.id.editProfileSaveButton);
         takePhoto = findViewById(R.id.editProfileImageButton);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +132,7 @@ public class AddBoardGameActivity extends AppCompatActivity {
                     String players = mPlayers.getText().toString();
 
 
-                    addBoard(name, players, imagePath);
+                    addBoard(name, players);
                 }
                 else{
                     Toast.makeText(AddBoardGameActivity.this,"Please Login First", Toast.LENGTH_SHORT).show();
@@ -120,33 +142,51 @@ public class AddBoardGameActivity extends AppCompatActivity {
             }
         });
     }
-    public void addBoard(String name ,String players, String imagePath) {
+    public void addBoard(String name ,String players) {
+        String path = getPath(imagePath);
+
         Map<String, RequestBody> itemsData = new HashMap<>();
 
         itemsData.put("name", createPartFromString(name));
         itemsData.put("players", createPartFromString(players));
-        Call<ResponseBody> call;
-        if (imagePath == null) {
+        Call<Object> call;
+        if (path == null) {
             call = api.addBoardGame(currentUser.getToken(), itemsData);
         }
         else{
-            File file = new File(imagePath);
+            File file = new File(path);
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
 
             call = api.addBoardGames(currentUser.getToken(), itemsData, body);
         }
-        call.enqueue(new Callback<ResponseBody>(){
+        call.enqueue(new Callback<Object>(){
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response){
+            public void onResponse(Call<Object> call, Response<Object> response){
                 if(!response.isSuccessful()){
                     System.out.println("code:"+response.code());
                     Toast.makeText(AddBoardGameActivity.this,"BoardGame adding failed", Toast.LENGTH_SHORT).show();
 
                 }
-                if(response.isSuccessful()){
-                    String somResponse = response.body().toString();
-                    Toast.makeText(AddBoardGameActivity.this,"BoardGame added", Toast.LENGTH_SHORT).show();
+                if(response.isSuccessful()) {
+                    Object somResponse = response.body();
+                    String json=new Gson().toJson(response.body());
+                    try {
+                        JSONObject jsonObject=new JSONObject(json);
+                        JSONArray photoList = jsonObject.getJSONArray("boardImages");
+                        if(photoList.length() > 0){
+                            for(int i = 0; i < photoList.length(); i ++){
+                                JSONObject photo = photoList.getJSONObject(i);
+                                String id = photo.getString("id");
+                                uploadImageToFirebase(imagePath, id);
+                            }
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(AddBoardGameActivity.this,"Board successfully added", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
                 }
@@ -154,15 +194,13 @@ public class AddBoardGameActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call,Throwable t){
+            public void onFailure(Call<Object> call,Throwable t){
             }
         });
     }
     private RequestBody createPartFromString (String partString) {
         return RequestBody.create(MultipartBody.FORM, partString);
     }
-
-
 
     private void selectImagesMethod() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
@@ -192,7 +230,7 @@ public class AddBoardGameActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        imagePath = data.getData();
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE){
                 onSelectFromGalleryResult(data);
@@ -219,57 +257,29 @@ public class AddBoardGameActivity extends AppCompatActivity {
     }
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
-        Uri tempUri = getImageUri(getApplicationContext(), thumbnail);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+        if (!destination.exists()) {
+            destination.mkdirs();
+        }
 
-        imagePath = getRealPathFromURI(tempUri);
-        File finalFile = new File(imagePath);
-
-        Bitmap finalimg = ExifUtil.rotateBitmap(finalFile.toString(), thumbnail);
-        imageView.setImageBitmap(thumbnail);
-    }
-
-    private File createImageFile() {
-        File result = null;
-
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-
+        FileOutputStream fo;
         try {
-            result = File.createTempFile(imageFileName,  ".jpg",   storageDir);
-            System.out.println("File is " + result);
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return result;
+        imageView.setImageBitmap(thumbnail);
     }
-
-
-
-
-
-
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-
-    public String getRealPathFromURI(Uri uri) {
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
-    }
-
-
-
 
     private void galleryIntent() {
         Intent intent = new Intent();
@@ -282,4 +292,51 @@ public class AddBoardGameActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
+
+
+
+    private void uploadImageToFirebase(Uri file, String id){
+        StorageReference image = mStorageRef.child("images/" + id);
+        image.putFile(file)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Toast.makeText(AddBoardGameActivity.this,"Image Uploaded", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                });
+    }
+
+    public String getPath(Uri uri) {
+            if(uri == null){
+                return null;
+            }
+            else{
+                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+                cursor.moveToFirst();
+                String document_id = cursor.getString(0);
+                document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+                cursor.close();
+
+                cursor = getContentResolver().query(
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+                cursor.moveToFirst();
+                String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                cursor.close();
+
+                return path;
+            }
+        }
 }

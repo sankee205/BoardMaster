@@ -104,11 +104,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         String players = "";
         for(int i = 0; i< playerlist.size(); i++){
             User user = playerlist.get(i);
-            players += user.getUsername()+ " ";
+
+            if(i+1 == playerlist.size()){
+                players += user.getUsername()+ " ";
+            }
+            else{
+                players += user.getUsername()+ ",  ";
+
+            }
 
         }
         String finalPlayers = players;
         holder.players.setText(finalPlayers);
+
+        String photoId = games.get(position).getProfileImages().get(0).getId();
 
 
 
@@ -119,7 +128,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
                 JoinBottomDialogFragment fragment = new JoinBottomDialogFragment();
-                fragment.setParameters(id,game,title, description, finalPlayers, date, time);
+                fragment.setParameters(id,game,title, description, finalPlayers, date, time, photoId);
                 fragment.show(activity.getSupportFragmentManager(), "PurchaseBottomDialogFragment");
                 //activity.getSupportFragmentManager().beginTransaction().replace(R.id.itemsRecyclerView, fragment).addToBackStack(null).commit();
             }

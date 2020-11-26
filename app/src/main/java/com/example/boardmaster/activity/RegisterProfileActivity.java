@@ -9,7 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +55,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -121,6 +127,122 @@ public class RegisterProfileActivity extends AppCompatActivity {
         takePhoto = findViewById(R.id.imageButton);
         backButton = findViewById(R.id.cancelRegisterButton);
 
+        mFirstname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!mFirstname.getText().toString().matches("^[A-Za-z]+$") ||  mFirstname.getText().toString().length()<=2){
+                    mFirstname.setTextColor(getResources().getColor(R.color.red));
+                }
+                else{
+                    mFirstname.setTextColor(getResources().getColor(R.color.black));
+                }
+            }
+        });
+
+        mLastname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!mLastname.getText().toString().matches("^[A-Za-z]+$") ||  mLastname.getText().toString().length()<=2){
+                    mLastname.setTextColor(getResources().getColor(R.color.red));
+                }
+                else{
+                    mLastname.setTextColor(getResources().getColor(R.color.black));
+                }
+            }
+        });
+
+        mUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!mUsername.getText().toString().matches("^[A-Za-z]+$") ||  mUsername.getText().toString().length()<=6){
+                    mUsername.setTextColor(getResources().getColor(R.color.red));
+
+                }
+                else{
+                    mUsername.setTextColor(getResources().getColor(R.color.black));
+                }
+            }
+        });
+
+        mEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!isValidEmail(mEmail.getText().toString())){
+                    mEmail.setTextColor(getResources().getColor(R.color.red));
+
+                }
+                else{
+                    mEmail.setTextColor(getResources().getColor(R.color.black));
+                }
+            }
+        });
+
+        mPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!isValidPassword(mPassword.getText())){
+                    mPassword.setTextColor(getResources().getColor(R.color.red));
+
+                }
+                else{
+                    mPassword.setTextColor(getResources().getColor(R.color.black));
+                }
+            }
+        });
+
+
+
+
+
 
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +258,11 @@ public class RegisterProfileActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+
+
         addUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,8 +272,12 @@ public class RegisterProfileActivity extends AppCompatActivity {
                 String lastname = mLastname.getText().toString();
                 String email = mEmail.getText().toString();
 
-
-                addProfile(username, password, firstname, lastname, email);
+                if(!validateInputs()){
+                    addProfile(username, password, firstname, lastname, email);
+                }
+                else{
+                    Toast.makeText(RegisterProfileActivity.this,"Not valid input in the form", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -184,7 +315,6 @@ public class RegisterProfileActivity extends AppCompatActivity {
                 }
                 if(response.isSuccessful()){
                     Object somResponse = response.body();
-                    System.out.println("response: "+somResponse);
                     String json=new Gson().toJson(response.body());
                     try {
                         JSONObject jsonObject=new JSONObject(json);
@@ -194,7 +324,6 @@ public class RegisterProfileActivity extends AppCompatActivity {
                             for(int i = 0; i < photoList.length(); i ++){
                                 JSONObject photo = photoList.getJSONObject(i);
                                 String id = photo.getString("id");
-                                System.out.println("id: " +id);
 
                                 uploadImageToFirebase(imagePath, id);
                             }
@@ -361,4 +490,43 @@ public class RegisterProfileActivity extends AppCompatActivity {
     }
 
 
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+    public static boolean isValidPassword(CharSequence target) {
+        Pattern pattern;
+        Matcher matcher;
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher = pattern.matcher(target);
+
+        return matcher.matches();
+    }
+
+
+    public boolean validateInputs(){
+        boolean errors = false;
+        if(!isValidEmail(mEmail.getText())){
+            errors = true;
+        }
+
+        if(!isValidPassword(mPassword.getText()) && mPassword.getText().toString().length() > 8){
+            errors = true;
+        }
+
+        if(!mFirstname.getText().toString().matches("^[A-Za-z]+$") && mFirstname.getText().toString().length()>=2){
+            errors = true;
+        }
+
+        if(!mLastname.getText().toString().matches("^[A-Za-z]+$") && mLastname.getText().toString().length()>=2){
+           errors = true;
+        }
+
+        if(!mUsername.getText().toString().matches("^[A-Za-z]+$") && mUsername.getText().toString().length()>=6){
+            errors = true;
+        }
+
+       return errors;
+    }
 }

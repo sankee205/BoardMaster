@@ -6,4 +6,7 @@
     <color name="orange">#F29309</color>
     <color name="orange_1">#F29309</color>
     <color name="red">#9F1F1F</color>
+    <color name="boardmaster_blue">#155682</color>
+    <color name="black">#FF000000</color>
+    <color name="grey">#DDDDDD</color>
 </resources>

@@ -125,22 +125,21 @@ public interface JsonPlaceHolderApi {
 
 
     @Multipart
-    @POST("boardmaster/add-boardgames")
-    Call<ResponseBody> addBoardGames(@Header("Authorization") String token,
+    @POST("boardmaster/add-boardgame")
+    Call<Object> addBoardGames(@Header("Authorization") String token,
                                 @PartMap Map<String, RequestBody> data,
                                 @Part MultipartBody.Part image
 
     );
     @Multipart
     @POST("boardmaster/add-boardgame")
-    Call<ResponseBody> addBoardGame(@Header("Authorization") String token,
+    Call<Object> addBoardGame(@Header("Authorization") String token,
                                @PartMap Map<String, RequestBody> data
     );
 
 
-    @Multipart
-    @POST("boardmaster/image{name}")
-    Call<Photo>getPhoto(@Query("name") String name);
+    @GET("boardmaster/image/{name}")
+    Call<ResponseBody>getPhoto(@Path("name") String name);
 
 
     //-------------------------------Message_Group--------------------------------------------------

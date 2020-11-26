@@ -248,7 +248,6 @@ public class MessageFragment extends BottomSheetDialogFragment {
                 }
                 if(response.isSuccessful()){
                     Object somResponse = response.body();
-                    System.out.println("response: "+somResponse);
                     String json=new Gson().toJson(response.body());
                     JSONArray jsonArray= null;
                     try {

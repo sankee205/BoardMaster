@@ -67,7 +67,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.AppViewH
     @NonNull
     @Override
     public MessageAdapter.AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        System.out.println(viewType);
         layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(viewType == 0 ? R.layout.message_right : R.layout.message_left,
                 parent,false);
@@ -105,7 +104,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.AppViewH
             }
             StorageReference image = mStorageRef.child("images/" + photoid);
 
-            image.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            image.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -127,7 +126,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.AppViewH
             }
             StorageReference image = mStorageRef.child("images/" + photoid);
 
-            image.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            image.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
