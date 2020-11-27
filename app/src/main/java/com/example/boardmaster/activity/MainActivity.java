@@ -29,7 +29,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.messageToolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        FloatingActionButton addBoardGame = findViewById(R.id.addBoardButton);
+        FloatingActionButton addBoardGame = findViewById(R.id.editProfileSaveButton);
 
         hview = navigationView.getHeaderView(0);
         mUsername = (TextView) hview.findViewById(R.id.navUsername);
@@ -80,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if(CurrentUser.getInstance().getGroup()!=null){
-            System.out.println(CurrentUser.getInstance().getGroup());
             if("admin".compareToIgnoreCase(CurrentUser.getInstance().getGroup())==0){
                 addBoardGame.setVisibility(View.VISIBLE);
                 addBoardGame.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.nav_login, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_login, R.id.nav_groups, R.id.nav_calendar)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -158,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                     //user.setPhotos(photoList);
 
                     CurrentUser.getInstance().setUser(user);
-                    System.out.println("group is: "+group);
                     CurrentUser.getInstance().setGroup(group);
 
                     mUsername.setText(uname);
@@ -200,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         }
         StorageReference image = mStorageRef.child("images/" + id);
 
-        image.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        image.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

@@ -14,31 +14,35 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/listGameName"
+            android:id="@+id/listGroupName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toEndOf="@+id/listGameImage"
-            android:layout_toRightOf="@+id/listGameImage"
+            android:layout_toEndOf="@+id/listGroupImage"
+            android:layout_toRightOf="@+id/listGroupImage"
             android:text="Name"
+            android:textColor="#000000"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/listGamePlayers"
-            android:layout_width="102dp"
-            android:layout_height="99dp"
+            android:layout_width="89dp"
+            android:layout_height="78dp"
+            android:layout_below="@+id/listGameMembers"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_toStartOf="@id/listGameMembers"
             android:text="Players"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:layout_toLeftOf="@id/listGameMembers" />
 
         <ImageView
-            android:id="@+id/listGameImage"
+            android:id="@+id/listGroupImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
@@ -49,19 +53,60 @@
 
         <TextView
             android:id="@+id/listGameTitle"
-            android:layout_width="146dp"
-            android:layout_height="60dp"
-            android:layout_below="@+id/listGameName"
+            android:layout_width="144dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/listGroupName"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="124dp"
-            android:layout_marginRight="124dp"
-            android:layout_toEndOf="@+id/listGameImage"
-            android:layout_toRightOf="@+id/listGameImage"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="52dp"
+            android:layout_marginEnd="128dp"
+            android:layout_marginRight="128dp"
+            android:layout_toEndOf="@+id/listGroupImage"
+            android:layout_toRightOf="@+id/listGroupImage"
             android:text="Title" />
+
+        <TextView
+            android:id="@+id/listGameMembers"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="95dp"
+            android:layout_marginLeft="95dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_toEndOf="@+id/listGroupName"
+            android:layout_toRightOf="@+id/listGroupName"
+            android:text="GameMembers:"
+            android:textColor="#020101" />
+
+        <TextView
+            android:id="@+id/listGroupDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listGroupName"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@+id/listGroupImage"
+            android:layout_toRightOf="@+id/listGroupImage"
+            android:text="Date " />
+
+        <TextView
+            android:id="@+id/listGroupTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listGroupName"
+            android:layout_marginStart="9dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginTop="23dp"
+            android:layout_toEndOf="@+id/listGroupImage"
+            android:layout_toRightOf="@+id/listGroupImage"
+            android:text="Time" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

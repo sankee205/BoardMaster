@@ -47,6 +47,9 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation 'com.google.code.gson:gson:2.4'
 
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
 
     implementation 'org.conscrypt:conscrypt-android:2.5.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
@@ -58,5 +61,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.5'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    compile 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    compile 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    compile 'com.github.alamkanak:android-week-view:1.2.6'
+
+
 
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/addBoardGameName"
+        android:id="@+id/editProfileFirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBoardGameName" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfileFirstName" />
 
     <EditText
         android:id="@+id/editProfileUserName"
@@ -45,65 +45,78 @@
         app:layout_constraintTop_toBottomOf="@+id/editProfileLastName" />
 
     <EditText
-        android:id="@+id/addBoardGamePlayers"
+        android:id="@+id/editProfileEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/email"
-        android:inputType="@string/email"
+        android:inputType="textEmailSubject"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editProfileUserName" />
 
     <Button
-        android:id="@+id/addBoardButton"
+        android:id="@+id/editProfileSaveButton"
         android:layout_width="209dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Save Changes"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBoardGamePlayers" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfilePassword" />
 
     <ImageView
-        android:id="@+id/addBoardGameImage"
+        android:id="@+id/editProfileImage"
         android:layout_width="248dp"
         android:layout_height="213dp"
         android:layout_marginBottom="44dp"
-        app:layout_constraintBottom_toTopOf="@+id/addBoardGameImageButton"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileImageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageButton
-        android:id="@+id/addBoardGameImageButton"
+        android:id="@+id/editProfileImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/addBoardGameName"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileFirstName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.721"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_menu_camera" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/editProfilePictureText"
         android:layout_width="139dp"
         android:layout_height="38dp"
         android:text="Change Profile Image"
-        app:layout_constraintBottom_toTopOf="@+id/addBoardGameName"
-        app:layout_constraintEnd_toStartOf="@+id/addBoardGameImageButton" />
+        app:layout_constraintBottom_toTopOf="@+id/editProfileFirstName"
+        app:layout_constraintEnd_toStartOf="@+id/editProfileImageButton" />
 
     <TextView
-        android:id="@+id/addGameBackToHome"
+        android:id="@+id/editProfileCancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@android:string/cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBoardButton" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfileSaveButton" />
+
+    <EditText
+        android:id="@+id/editProfilePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileEmail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

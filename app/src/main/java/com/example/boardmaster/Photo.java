@@ -4,10 +4,19 @@ import java.io.File;
 
 public class Photo {
     String id;
-
     String filename;
-
     File file;
+
+    public Photo() {
+    }
+
+    public Photo(String id) {
+        this.id = id;
+    }
+
+    public Photo(File file) {
+        this.file = file;
+    }
 
     public String getId() {
         return id;
@@ -18,7 +27,7 @@ public class Photo {
     }
 
     public String getFilename() {
-        return filename;
+        return filename != null ? filename : file != null ? file.getName() : "default";
     }
 
     public void setFilename(String filename) {

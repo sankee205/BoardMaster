@@ -11,19 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.boardmaster.BoardGame;
+import com.example.boardmaster.game.BoardGame;
 import com.example.boardmaster.CurrentUser;
 import com.example.boardmaster.R;
 import com.example.boardmaster.retrofit.ApiClient;
-import com.example.boardmaster.Game;
+import com.example.boardmaster.game.Game;
 import com.example.boardmaster.retrofit.JsonPlaceHolderApi;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,7 +91,6 @@ public class HomeFragment extends Fragment{
                     boardgamelist.add(boardgames.get(i).getName());
                 }
                 CurrentUser.getInstance().setGameList(boardgamelist);
-                System.out.println("board games: "+ boardgamelist);
 
 
             }

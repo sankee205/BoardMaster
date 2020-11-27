@@ -6,10 +6,10 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/addBoardGameName"
+        android:id="@+id/editProfileFirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:ems="10"
         android:hint="Title"
         android:inputType="textPersonName"
@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/addBoardGamePlayers"
+        android:id="@+id/editProfileEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -26,47 +26,48 @@
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.785" />
+        app:layout_constraintVertical_bias="0.657" />
 
     <Button
-        android:id="@+id/addBoardButton"
+        android:id="@+id/editProfileSaveButton"
         android:layout_width="209dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
         android:text="Add Game"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBoardGamePlayers" />
+        app:layout_constraintTop_toBottomOf="@+id/addGameDate" />
 
     <EditText
         android:id="@+id/addGameDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Description"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/addBoardGamePlayers"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileEmail"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/addBoardGameImage"
+        android:id="@+id/editProfileImage"
         android:layout_width="248dp"
         android:layout_height="213dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/addBoardGameImageButton"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileImageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageButton
-        android:id="@+id/addBoardGameImageButton"
+        android:id="@+id/editProfileImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/searchableSpinner"
@@ -81,17 +82,17 @@
         android:layout_height="32dp"
         android:text="Add a Photo"
         app:layout_constraintBottom_toTopOf="@+id/searchableSpinner"
-        app:layout_constraintEnd_toStartOf="@+id/addBoardGameImageButton" />
+        app:layout_constraintEnd_toStartOf="@+id/editProfileImageButton" />
 
     <TextView
-        android:id="@+id/addGameBackToHome"
+        android:id="@+id/editProfileCancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@android:string/cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBoardButton" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfileSaveButton" />
 
     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
         android:id="@+id/searchableSpinner"
@@ -99,8 +100,32 @@
         android:layout_height="43dp"
         android:layout_marginBottom="10dp"
         app:hintText="Choose a Game"
-        app:layout_constraintBottom_toTopOf="@+id/addBoardGameName"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileFirstName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/addGameDate"
+        android:layout_width="139dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="8dp"
+        android:text="Date"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.404"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileEmail" />
+
+    <TextView
+        android:id="@+id/addGameTime"
+        android:layout_width="64dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="8dp"
+        android:text="Time"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/addGameDate"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileEmail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

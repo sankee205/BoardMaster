@@ -161,7 +161,7 @@ public class ProfileFragment extends Fragment {
         }
         StorageReference image = mStorageRef.child("images/" + id);
 
-        image.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        image.getBytes(1024*1024*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
