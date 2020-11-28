@@ -5,7 +5,9 @@ import com.example.boardmaster.calendardayview.IEvent;
 
 import java.util.Calendar;
 
-
+/**
+ * Event in the daycalender
+ */
 public class Event implements IEvent {
 
     private long mId;

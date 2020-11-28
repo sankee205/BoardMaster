@@ -7,14 +7,24 @@ import android.graphics.Rect;
 public class CdvDecorationDefault implements CdvDecoration {
 
     protected Context mContext;
-
     protected EventView.OnEventClickListener mEventClickListener;
 
-
+    /**
+     *
+     * @param context
+     */
     public CdvDecorationDefault(Context context) {
         this.mContext = context;
     }
 
+    /**
+     *
+     * @param event
+     * @param eventBound
+     * @param hourHeight
+     * @param separateHeight
+     * @return
+     */
     @Override
     public EventView getEventView(IEvent event, Rect eventBound, int hourHeight,
                                   int separateHeight) {
@@ -26,7 +36,11 @@ public class CdvDecorationDefault implements CdvDecoration {
     }
 
 
-
+    /**
+     *
+     * @param hour
+     * @return
+     */
     @Override
     public DayView getDayView(int hour) {
         DayView dayView = new DayView(mContext);
@@ -34,6 +48,10 @@ public class CdvDecorationDefault implements CdvDecoration {
         return dayView;
     }
 
+    /**
+     *
+     * @param listener
+     */
     public void setOnEventClickListener(EventView.OnEventClickListener listener) {
         this.mEventClickListener = listener;
     }

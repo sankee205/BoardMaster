@@ -2,6 +2,9 @@ package com.example.boardmaster;
 
 import java.util.ArrayList;
 
+/**
+ * this class handles some information about the current user
+ */
 public class CurrentUser {
     private static CurrentUser instance = null;
 
@@ -10,6 +13,7 @@ public class CurrentUser {
     private static boolean userLogedIn;
     private static ArrayList<String> gameList;
     private static String group;
+
     public static CurrentUser getInstance() {
         if (instance == null) {
             instance = new CurrentUser();

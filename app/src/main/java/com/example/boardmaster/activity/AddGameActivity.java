@@ -79,6 +79,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * this class adds a game to the database
+ */
 public class AddGameActivity extends AppCompatActivity {
     JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     TextView backButton, mDate, mTime;
@@ -114,6 +117,10 @@ public class AddGameActivity extends AppCompatActivity {
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
 
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,6 +155,7 @@ public class AddGameActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
+
 
         onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -253,6 +261,16 @@ public class AddGameActivity extends AppCompatActivity {
 
 
     }
+
+    /**
+     *
+     * @param game
+     * @param title
+     * @param description
+     * @param players
+     * @param date
+     * @param time
+     */
     public void addItem(String game, String title,String description,String players, String date, String time) {
         boolean picture;
         String imagePath = getPath(imageUri);
@@ -330,12 +348,19 @@ public class AddGameActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     *
+     * @param partString
+     * @return
+     */
     private RequestBody createPartFromString (String partString) {
         return RequestBody.create(MultipartBody.FORM, partString);
     }
 
 
-
+    /**
+     *
+     */
     private void selectImagesMethod() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -361,6 +386,12 @@ public class AddGameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -376,6 +407,7 @@ public class AddGameActivity extends AppCompatActivity {
         }
     }
 
+
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
@@ -389,6 +421,8 @@ public class AddGameActivity extends AppCompatActivity {
 
         imageView.setImageBitmap(bm);
     }
+
+
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -422,11 +456,17 @@ public class AddGameActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
+
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
+    /**
+     * gets the path of a uri file
+     * @param uri
+     * @return
+     */
     public String getPath(Uri uri) {
         if(uri == null){
             return null;
@@ -450,7 +490,11 @@ public class AddGameActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * uploads a image to firebase
+     * @param file
+     * @param id
+     */
     private void uploadImageToFirebase(Uri file, String id){
         StorageReference image = mStorageRef.child("images/" + id);
         image.putFile(file)
@@ -474,6 +518,10 @@ public class AddGameActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * creates a conversation through request to the server
+     * @param thisgameid
+     */
     private void createConversation(Long thisgameid){
         Call<Object> call = api.createConversation(currentUser.getToken(),thisgameid);
 
@@ -499,6 +547,10 @@ public class AddGameActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * gets the boardgame photo from firebase by id
+     * @param id
+     */
     private void getBoardGamePhoto(String id){
         photoId = id;
         File localFile = null;
@@ -519,6 +571,10 @@ public class AddGameActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * gets the photo id of a boardgame based on the name
+     * @param name
+     */
     private void getPhotoId(String name){
         Call<ResponseBody> call= api.getPhoto(name);
 

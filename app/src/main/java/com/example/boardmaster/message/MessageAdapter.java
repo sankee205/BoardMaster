@@ -36,6 +36,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * this is a message adapter. it will adapt the message to the messagefragment
+ * so it looks like a chat
+ */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.AppViewHolder>{
 
     private Context mContext;
@@ -50,6 +54,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.AppViewH
     }
 
 
+    /**
+     *
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
         Message message = messages.get(position);
@@ -64,6 +73,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.AppViewH
     }
 
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public MessageAdapter.AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -74,6 +89,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.AppViewH
     }
 
 
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.AppViewHolder holder, int position) {
         DateFormat dateFormat = new SimpleDateFormat();
@@ -141,6 +161,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.AppViewH
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         if (messages == null) {

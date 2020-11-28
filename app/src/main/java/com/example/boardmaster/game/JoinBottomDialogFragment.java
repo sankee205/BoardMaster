@@ -32,6 +32,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * this is a popup fragment, when a game is touched in the home activity
+ * this fragment will pop up and show more specific details of the game
+ */
 public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
     private JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     private CurrentUser currentUser = CurrentUser.getInstance();
@@ -53,6 +57,13 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
     public JoinBottomDialogFragment(){
     }
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -116,6 +127,18 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         return view;
 
     }
+
+    /**
+     *
+     * @param id
+     * @param game
+     * @param title
+     * @param description
+     * @param players
+     * @param date
+     * @param time
+     * @param photoId
+     */
     public void setParameters(Long id, String game, String title, String description, String players, String date, String time, String photoId){
         this.id = id;
         this.game = game;
@@ -127,6 +150,12 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         this.photoID = photoId;
 
     }
+
+    /**
+     *
+     * @param itemid
+     * @return
+     */
     public boolean joinGame(Long itemid){
         String userToken = CurrentUser.getInstance().getToken();
         Call<ResponseBody> call = api.joinGame(userToken,itemid);
@@ -153,6 +182,10 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         return true;
     }
 
+    /**
+     *
+     * @param id
+     */
     private void getBoardGamePhoto(String id){
         File localFile = null;
         try {

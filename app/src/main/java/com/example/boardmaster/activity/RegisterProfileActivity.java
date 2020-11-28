@@ -66,6 +66,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.Tag;
 
+/**
+ * this activity registers a new user to the database
+ */
 public class RegisterProfileActivity extends AppCompatActivity {
     JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     EditText mFirstname, mLastname, mUsername, mPassword, mEmail;
@@ -284,6 +287,15 @@ public class RegisterProfileActivity extends AppCompatActivity {
 
 
     }
+
+    /**
+     * sends request to server to add a new profile to the database
+     * @param username
+     * @param password
+     * @param firstname
+     * @param lastname
+     * @param email
+     */
     public void addProfile(String username,String password,String firstname, String lastname, String email) {
         String path = getPath(imagePath);
 
@@ -344,6 +356,7 @@ public class RegisterProfileActivity extends AppCompatActivity {
             }
         });
     }
+
     private RequestBody createPartFromString (String partString) {
         return RequestBody.create(MultipartBody.FORM, partString);
     }

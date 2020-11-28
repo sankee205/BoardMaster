@@ -39,6 +39,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * this is the main class of the app, this is where you end up when opening the app
+ * and you will be navigated to other activities
+ */
 public class MainActivity extends AppCompatActivity {
 
     JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
@@ -112,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
+
+    /**
+     * sets the header parameters to the current users details
+     */
     private void setHeader(){
         if(CurrentUser.getInstance().isUserLogedIn()){
             currentUser();
@@ -122,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * gets the current user by sending a request to server
+     */
     private void currentUser(){
         String userToken = CurrentUser.getInstance().getToken();
         Call<Object> call= api.currentUser(userToken);
@@ -174,12 +185,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * creates a sidebar menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -188,6 +205,10 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    /**
+     * gets photo from firebase by id
+     * @param id
+     */
     public void getFirebasePhoto(String id){
         File localFile = null;
         try {

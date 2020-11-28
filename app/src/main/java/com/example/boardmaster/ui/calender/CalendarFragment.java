@@ -52,18 +52,18 @@ import retrofit2.Response;
 import static android.content.ContentValues.TAG;
 
 
+/**
+ * this is the calenderfragment, it has a normal calender and a daycalender by hour.
+ */
 public class CalendarFragment extends Fragment {
     private  CompactCalendarView compactCalendarView;
 
     private JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     private ArrayList<Game> items = new ArrayList<>();
-
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
     TextView calenderMonth, calenderDate;
 
     ImageView left_button, right_button;
-
-
 
     CalendarDayView dayView;
 
@@ -161,6 +161,9 @@ public class CalendarFragment extends Fragment {
     }
 
 
+    /**
+     * gets the list of games
+     */
     public void setItemsList() {
         if(CurrentUser.getInstance().isUserLogedIn()){
             Call<ArrayList<Game>> call = api.listUsersGames(CurrentUser.getInstance().getToken());
@@ -186,7 +189,10 @@ public class CalendarFragment extends Fragment {
     }
 
 
-
+    /**
+     * creates event for each game
+     * @param games
+     */
     public void addEvent(List<Game> games) {
         gameList = games;
         if(!games.isEmpty()){
@@ -219,6 +225,10 @@ public class CalendarFragment extends Fragment {
 
     }
 
+    /**
+     * sets the daycalender by a date
+     * @param date
+     */
     public void setDayCalendar(Date date){
         ArrayList<IEvent> newEvents = new ArrayList<>();
         ArrayList<Event> someEventList = new ArrayList<>();

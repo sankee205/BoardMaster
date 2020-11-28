@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * lists the games in the homefragment
+ */
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>{
     private Context mContext;
     private ArrayList<Game> games = new ArrayList<>();
@@ -47,6 +50,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         this.mOnItemListener = onItemListener;
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,7 +64,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         return new AppViewHolder(view, mOnItemListener);
     }
 
-
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
         try{
@@ -136,6 +149,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     }
 
+    /**
+     * get the total number of games
+     * @return
+     */
     @Override
     public int getItemCount() {
         if (games == null) {

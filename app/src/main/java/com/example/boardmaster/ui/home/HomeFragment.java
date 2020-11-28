@@ -24,6 +24,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * this is the opening fragment, it lists all the games that other people
+ * have posted so its available for everyone
+ */
 public class HomeFragment extends Fragment{
 
     private JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
@@ -36,6 +40,13 @@ public class HomeFragment extends Fragment{
     private View listView;
     private ItemAdapter.OnItemListener onItemListener;
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +62,9 @@ public class HomeFragment extends Fragment{
         return listView;
     }
 
+    /**
+     * requests the list of all games, adapts it and lists it
+     */
     public void setItemsList()
     {
         Call<ArrayList<Game>> call = api.listGames();
@@ -74,6 +88,9 @@ public class HomeFragment extends Fragment{
         });
     }
 
+    /**
+     * gets the list of boardgames
+     */
     private void getGameList(){
         Call<ArrayList<BoardGame>>call = api.listBoardGames();
 

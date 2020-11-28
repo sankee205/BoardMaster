@@ -33,6 +33,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * adapt the groups in the group fragment
+ */
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolder>{
     private Context mContext;
     private ArrayList<Game> games = new ArrayList<>();
@@ -47,6 +50,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolde
         this.mOnItemListener = onItemListener;
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     public GroupAdapter.AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         layoutInflater = LayoutInflater.from(parent.getContext());
@@ -54,7 +63,11 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolde
         return new GroupAdapter.AppViewHolder(view, mOnItemListener);
     }
 
-
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     public void onBindViewHolder(@NonNull GroupAdapter.AppViewHolder holder, int position) {
         try{
             Photo photo = games.get(position).getProfileImages().get(0);
@@ -135,12 +148,17 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolde
 
     }
 
+    /**
+     *
+     * @return number of games
+     */
     public int getItemCount() {
         if (games == null) {
             return 0;
         }
         return games.size();
     }
+
 
     public class AppViewHolder extends RecyclerView.ViewHolder{
         ImageView image;

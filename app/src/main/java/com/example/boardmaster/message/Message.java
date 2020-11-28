@@ -9,15 +9,10 @@ import java.util.List;
 public class Message {
 
     Long id;
-
     String text;
-
     User sender;
-
     Conversation conversation;
-
     List<Photo> photos;
-
     Date created;
 
 

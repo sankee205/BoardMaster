@@ -65,6 +65,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * this is a message fragment. it will pop up from below like the joinbottomfragment
+ * but instead of showing details of the game, it will show its group chat
+ */
 public class MessageFragment extends BottomSheetDialogFragment {
     private StorageReference mStorageRef;
     private JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
@@ -97,6 +101,13 @@ public class MessageFragment extends BottomSheetDialogFragment {
     public MessageFragment(){
     }
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -153,6 +164,13 @@ public class MessageFragment extends BottomSheetDialogFragment {
 
     }
 
+    /**
+     *
+     * @param id
+     * @param game
+     * @param date
+     * @param time
+     */
     public void setParameters(Long id, String game, String date, String time){
         this.id = id;
         this.game = game;
@@ -160,6 +178,12 @@ public class MessageFragment extends BottomSheetDialogFragment {
         this.time = time;
 
     }
+
+    /**
+     *
+     * @param message
+     * @param conversationid
+     */
     public void sendMessage(String message, String conversationid){
         String imagePath = getPath(imageUri);
         String userToken = CurrentUser.getInstance().getToken();
@@ -207,10 +231,20 @@ public class MessageFragment extends BottomSheetDialogFragment {
         });
     }
 
+    /**
+     *
+     * @param partString
+     * @return
+     */
     private RequestBody createPartFromString (String partString) {
         return RequestBody.create(MultipartBody.FORM, partString);
     }
 
+    /**
+     *
+     * @param file
+     * @param id
+     */
     private void uploadImageToFirebase(Uri file, String id){
         StorageReference image = mStorageRef.child("images/" + id);
         image.putFile(file)
@@ -234,6 +268,9 @@ public class MessageFragment extends BottomSheetDialogFragment {
                 });
     }
 
+    /**
+     *
+     */
     public void getconversationid(){
         String userToken = currentUser.getToken();
 
@@ -271,6 +308,10 @@ public class MessageFragment extends BottomSheetDialogFragment {
         });
     }
 
+    /**
+     *
+     * @param convId
+     */
     public void updateConversation(Long convId){
         String userToken = currentUser.getToken();
 
@@ -299,6 +340,9 @@ public class MessageFragment extends BottomSheetDialogFragment {
         }
     }
 
+    /**
+     *
+     */
     private void selectImagesMethod() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -324,6 +368,12 @@ public class MessageFragment extends BottomSheetDialogFragment {
 
     }
 
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -339,6 +389,7 @@ public class MessageFragment extends BottomSheetDialogFragment {
         }
     }
 
+
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
@@ -353,6 +404,8 @@ public class MessageFragment extends BottomSheetDialogFragment {
         imageToSend.setImageBitmap(bm);
         imageToSend.setVisibility(View.VISIBLE);
     }
+
+
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -380,6 +433,7 @@ public class MessageFragment extends BottomSheetDialogFragment {
         imageToSend.setVisibility(View.VISIBLE);
 
     }
+
 
     private void galleryIntent() {
         Intent intent = new Intent();

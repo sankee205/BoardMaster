@@ -49,6 +49,10 @@ import retrofit2.Response;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
+/**
+ * this is the profilfragment that shown the details of the user, and has the option to
+ * edit its user details by pressing the edit profile button wher the user will be sendt to the edit user activity
+ */
 public class ProfileFragment extends Fragment {
     private JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     private TextView mUsername, mEmail, mName, mNoLogin, mProfileGroup;
@@ -58,6 +62,13 @@ public class ProfileFragment extends Fragment {
 
     private StorageReference mStorageRef;
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceStatee
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceStatee) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -89,6 +100,10 @@ public class ProfileFragment extends Fragment {
         });
         return view;
     }
+
+    /**
+     * sets the header if the user is logged in
+     */
     private void setHeader(){
         if(CurrentUser.getInstance().isUserLogedIn()){
             currentUser();
@@ -104,6 +119,9 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    /**
+     * gets the current user
+     */
     private void currentUser(){
         String userToken = CurrentUser.getInstance().getToken();
         Call<Object> call= api.currentUser(userToken);
@@ -152,6 +170,10 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /**
+     * gets the firebase photo
+     * @param id
+     */
     public void getFirebasePhoto(String id){
         File localFile = null;
         try {

@@ -30,6 +30,9 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+/**
+ * this is a interface with all the different request to send to the server
+ */
 public interface JsonPlaceHolderApi {
 
     //-------------------------------AUTHENTICATION-------------------------------------------------

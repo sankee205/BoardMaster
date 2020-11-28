@@ -28,6 +28,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Group fragment is the fragment that lists al the groups the user is attached to
+ */
 public class GroupsFragment extends Fragment {
 
     private JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
@@ -40,6 +43,13 @@ public class GroupsFragment extends Fragment {
     private View listView;
     private ItemAdapter.OnItemListener onItemListener;
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,6 +65,9 @@ public class GroupsFragment extends Fragment {
         return listView;
     }
 
+    /**
+     * sends a request for the games and lists it throught the group adapter
+     */
     public void setItemsList()
     {
         Call<ArrayList<Game>> call = api.listUsersGames(CurrentUser.getInstance().getToken());

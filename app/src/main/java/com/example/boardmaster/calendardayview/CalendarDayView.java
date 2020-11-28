@@ -16,48 +16,59 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * creates a calender view
+ */
 public class CalendarDayView extends FrameLayout {
 
     private int mDayHeight = 0;
-
     private int mEventMarginLeft = 0;
-
     private int mHourWidth = 120;
-
     private int mTimeHeight = 120;
-
     private int mSeparateHourHeight = 0;
-
     private int mStartHour = 0;
-
     private int mEndHour = 24;
 
     private LinearLayout mLayoutDayView;
-
     private FrameLayout mLayoutEvent;
-
     private FrameLayout mLayoutPopup;
-
     private CdvDecoration mDecoration;
-
     private List<? extends IEvent> mEvents;
 
-
+    /**
+     *
+     * @param context
+     */
     public CalendarDayView(Context context) {
         super(context);
         init(null);
     }
 
+    /**
+     *
+     * @param context
+     * @param attrs
+     */
     public CalendarDayView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
+    /**
+     *
+     * @param context
+     * @param attrs
+     * @param defStyleAttr
+     */
     public CalendarDayView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
 
+    /**
+     *
+     * @param attrs
+     */
     private void init(AttributeSet attrs) {
         LayoutInflater.from(getContext()).inflate(R.layout.view_day_calendar, this, true);
 
@@ -88,6 +99,9 @@ public class CalendarDayView extends FrameLayout {
         refresh();
     }
 
+    /**
+     *
+     */
     public void refresh() {
         drawDayViews();
 
@@ -96,6 +110,9 @@ public class CalendarDayView extends FrameLayout {
 
     }
 
+    /**
+     *
+     */
     private void drawDayViews() {
         mLayoutDayView.removeAllViews();
         DayView dayView = null;
@@ -108,6 +125,9 @@ public class CalendarDayView extends FrameLayout {
         mSeparateHourHeight = (int) dayView.getSeparateHeight();
     }
 
+    /**
+     *
+     */
     private void drawEvents() {
         mLayoutEvent.removeAllViews();
 
@@ -123,8 +143,11 @@ public class CalendarDayView extends FrameLayout {
         }
     }
 
-
-
+    /**
+     *
+     * @param event
+     * @return
+     */
     private Rect getTimeBound(ITimeDuration event) {
         Rect rect = new Rect();
         rect.top = getPositionOfTime(event.getStartTime()) + mTimeHeight / 2 + mSeparateHourHeight;
@@ -134,19 +157,32 @@ public class CalendarDayView extends FrameLayout {
         return rect;
     }
 
+    /**
+     *
+     * @param calendar
+     * @return
+     */
     private int getPositionOfTime(Calendar calendar) {
         int hour = calendar.get(Calendar.HOUR_OF_DAY) - mStartHour;
         int minute = calendar.get(Calendar.MINUTE);
         return hour * mDayHeight + minute * mDayHeight / 60;
     }
 
+    /**
+     *
+     * @param events
+     */
     public void setEvents(List<? extends IEvent> events) {
         this.mEvents = events;
         refresh();
     }
 
 
-
+    /**
+     *
+     * @param startHour
+     * @param endHour
+     */
     public void setLimitTime(int startHour, int endHour) {
         if (startHour >= endHour) {
             throw new IllegalArgumentException("start hour must before end hour");
@@ -164,6 +200,10 @@ public class CalendarDayView extends FrameLayout {
         refresh();
     }
 
+    /**
+     *
+     * @return
+     */
     public CdvDecoration getDecoration() {
         return mDecoration;
     }

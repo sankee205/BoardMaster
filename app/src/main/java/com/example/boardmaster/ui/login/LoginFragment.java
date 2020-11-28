@@ -29,6 +29,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * this is the login in fragment where the user chooses to login orregister a new user
+ */
 public class LoginFragment extends Fragment {
     private JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     private EditText mUsername, mPassword;
@@ -37,6 +40,13 @@ public class LoginFragment extends Fragment {
 
     private TextView mLoginText, mRegisterText;
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,6 +84,12 @@ public class LoginFragment extends Fragment {
         });
         return view;
     }
+
+    /**
+     * request a token for loging in, if it retrives a token the login is successful
+     * @param uname
+     * @param password
+     */
     public void loginUser(String uname, String password){
         Call<ResponseBody> call = api.loginUser(uname, password);
 

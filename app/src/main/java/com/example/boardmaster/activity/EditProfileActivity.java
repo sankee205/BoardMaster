@@ -59,6 +59,9 @@ import retrofit2.Response;
 
 import static com.example.boardmaster.activity.RegisterProfileActivity.isValidEmail;
 
+/**
+ * this class edits an already existing users profile details
+ */
 public class EditProfileActivity extends AppCompatActivity {
     JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
     TextView backButton, mProfilePictureText;
@@ -254,6 +257,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * retrives the info of the current user
+     */
     public void getInfo(){
         String userToken = CurrentUser.getInstance().getToken();
         Call<Object> call= api.currentUser(userToken);
@@ -298,7 +304,15 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * sends a request to the server with the new details of the current suser
+     * @param username
+     * @param firstname
+     * @param lastname
+     * @param email
+     * @param password
+     * @param imagePath
+     */
     public void editProfile(String username,String firstname, String lastname, String email, String password, String imagePath) {
         Call<ResponseBody> call;
         Map<String, RequestBody> itemsData = new HashMap<>();
@@ -469,10 +483,21 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * checks if the email is valid
+     * @param target
+     * @return
+     */
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
+    /**
+     * checks if the password is valid
+     * @param target
+     * @return
+     */
     public static boolean isValidPassword(CharSequence target) {
         Pattern pattern;
         Matcher matcher;
@@ -483,6 +508,12 @@ public class EditProfileActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
+    /**
+     * checks if all the inputs are valid
+     * if and only if all are valid, it returns false.
+     * if one or more of the inputs are unvalid it returns true
+     * @return
+     */
     public boolean validateInputs(){
         boolean errors = false;
         if(!isValidEmail(mEmail.getText())){

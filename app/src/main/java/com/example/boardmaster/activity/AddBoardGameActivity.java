@@ -61,33 +61,52 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * This class is an activity that adds a boardgame to the list of boardgames
+ */
 public class AddBoardGameActivity extends AppCompatActivity {
     JsonPlaceHolderApi api = ApiClient.getClient().create(JsonPlaceHolderApi.class);
 
+    //firebase Image storage
     private StorageReference mStorageRef;
 
-
+    //back button
     TextView homeButton;
+
+    //parametic inputs for a boardgame
     EditText mName, mPlayers;
 
-
+    //photo
     ImageView imageView;
+
+    //button to add
     Button addBoardGame;
+
+    //add image button
     ImageButton takePhoto;
 
     private static final int REQUEST_CAMERA = 1;
     private static final int SELECT_FILE = 2;
 
+    //choose photo from library or new photo
     String userChoosenTask;
 
+    //variable for image
     private Uri imagePath;
 
+    // list for photo
     List<File> photoFiles = new ArrayList<>();
+
+    //file for boardgame photo
     File currentPhoto;
 
+    //variabel for current user
     private CurrentUser currentUser = CurrentUser.getInstance();
 
+    //arraylist for the list of games
     private ArrayList gameList = currentUser.getGameList();
+
+    //game name
     private String game;
 
 
@@ -96,18 +115,17 @@ public class AddBoardGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_boardgame);
 
+        // attaches variables to the specific objects
         homeButton = findViewById(R.id.editProfileCancelButton);
         mName = findViewById(R.id.editProfileFirstName);
         mPlayers = findViewById(R.id.editProfileEmail);
-
         imageView = findViewById(R.id.editProfileImage);
-
         addBoardGame = findViewById(R.id.editProfileSaveButton);
         takePhoto = findViewById(R.id.editProfileImageButton);
-
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
 
+        //sets a listener to the homebutton
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,6 +135,7 @@ public class AddBoardGameActivity extends AppCompatActivity {
         });
 
 
+        //sets a listener to the photo button
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,6 +143,7 @@ public class AddBoardGameActivity extends AppCompatActivity {
             }
         });
 
+        //sets a listener to the add boardgame button
         addBoardGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,6 +162,12 @@ public class AddBoardGameActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * adds a boardgame to the boardgamelist, sends a boardgame to the server
+     * @param name
+     * @param players
+     */
     public void addBoard(String name ,String players) {
         String path = getPath(imagePath);
 
@@ -198,10 +224,20 @@ public class AddBoardGameActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * This i s a help function, creates a part from a string
+     * @param partString
+     * @return
+     */
     private RequestBody createPartFromString (String partString) {
         return RequestBody.create(MultipartBody.FORM, partString);
     }
 
+    /**
+     * pop up window that lets you choose between taking a photo and choosing from
+     * the library of the phone
+     */
     private void selectImagesMethod() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -227,6 +263,12 @@ public class AddBoardGameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * function run after photo is taken/choosen
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -242,6 +284,10 @@ public class AddBoardGameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * sets the imageview to the coosen photo
+     * @param data
+     */
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
@@ -255,6 +301,11 @@ public class AddBoardGameActivity extends AppCompatActivity {
 
         imageView.setImageBitmap(bm);
     }
+
+    /**
+     * sets the imageview to the coosen photo
+     * @param data
+     */
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -281,6 +332,9 @@ public class AddBoardGameActivity extends AppCompatActivity {
         imageView.setImageBitmap(thumbnail);
     }
 
+    /**
+     * starts a new window for the image gallery
+     */
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -288,13 +342,20 @@ public class AddBoardGameActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
+    /**
+     * start a new window for the camera
+     */
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
 
-
+    /**
+     * uploads the image to firbase
+     * @param file
+     * @param id
+     */
     private void uploadImageToFirebase(Uri file, String id){
         StorageReference image = mStorageRef.child("images/" + id);
         image.putFile(file)
@@ -318,6 +379,11 @@ public class AddBoardGameActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * returns the path of a uri file
+     * @param uri
+     * @return
+     */
     public String getPath(Uri uri) {
             if(uri == null){
                 return null;
