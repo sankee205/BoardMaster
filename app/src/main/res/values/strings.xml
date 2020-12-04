@@ -23,4 +23,5 @@
     <string name="register_an_account">Register an account</string>
     <string name="add_item">Add Image</string>
     <string name="fullname">Name</string>
+    <string name="selectgame">Select Game</string>
 </resources>

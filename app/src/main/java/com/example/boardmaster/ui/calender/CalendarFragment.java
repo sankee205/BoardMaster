@@ -148,7 +148,7 @@ public class CalendarFragment extends Fragment {
 
                         }
                         JoinBottomDialogFragment fragment = new JoinBottomDialogFragment();
-                        fragment.setParameters(game.getId(),game.getGameName(),game.getTitle(), game.getDescription(), players, game.getDate(), game.getTime(), game.getProfileImages().get(0).getId());
+                        fragment.setParameters(game.getId(),game.getGameName(),game.getTitle(), game.getDescription(), players, game.getMaxPlayers(), game.getDate(), game.getTime(), game.getProfileImages().get(0).getId());
                         fragment.show(getActivity().getSupportFragmentManager(), "PurchaseBottomDialogFragment");
 
 

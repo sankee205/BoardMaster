@@ -232,7 +232,7 @@ public class RegisterProfileActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!isValidPassword(mPassword.getText())){
+                if(!isValidPassword(mPassword.getText()) ||  mPassword.getText().toString().length() < 8){
                     mPassword.setTextColor(getResources().getColor(R.color.red));
 
                 }
@@ -275,7 +275,7 @@ public class RegisterProfileActivity extends AppCompatActivity {
                 String lastname = mLastname.getText().toString();
                 String email = mEmail.getText().toString();
 
-                if(!validateInputs()){
+                if(validateInputs() == false){
                     addProfile(username, password, firstname, lastname, email);
                 }
                 else{
@@ -521,22 +521,26 @@ public class RegisterProfileActivity extends AppCompatActivity {
     public boolean validateInputs(){
         boolean errors = false;
         if(!isValidEmail(mEmail.getText())){
+            System.out.println("email wrong");
+            errors = true;
+        }
+        if(!isValidPassword(mPassword.getText()) ||  mPassword.getText().toString().length() < 8){
+            System.out.println("password wrong");
             errors = true;
         }
 
-        if(!isValidPassword(mPassword.getText()) && mPassword.getText().toString().length() > 8){
+        if(!mFirstname.getText().toString().matches("^[A-Za-z]+$")  ||  mFirstname.getText().toString().length()<2){
+            System.out.println("firstname wrong");
             errors = true;
         }
 
-        if(!mFirstname.getText().toString().matches("^[A-Za-z]+$") && mFirstname.getText().toString().length()>=2){
-            errors = true;
-        }
-
-        if(!mLastname.getText().toString().matches("^[A-Za-z]+$") && mLastname.getText().toString().length()>=2){
+        if(!mLastname.getText().toString().matches("^[A-Za-z]+$")  ||  mLastname.getText().toString().length()<2){
+            System.out.println("lastname wrong");
            errors = true;
         }
 
-        if(!mUsername.getText().toString().matches("^[A-Za-z]+$") && mUsername.getText().toString().length()>=6){
+        if(!mUsername.getText().toString().matches("^[A-Za-z]+$")  ||  mUsername.getText().toString().length()<6){
+            System.out.println("username wrong");
             errors = true;
         }
 

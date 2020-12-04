@@ -121,6 +121,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolde
 
         String photoId = games.get(position).getProfileImages().get(0).getId();
 
+        int maxplayers = games.get(position).getMaxPlayers();
+
 
 
 
@@ -140,7 +142,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.AppViewHolde
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
                 JoinBottomDialogFragment fragment = new JoinBottomDialogFragment();
-                fragment.setParameters(id,game,title, description, finalPlayers, date, time, photoId);
+                fragment.setParameters(id,game,title, description, finalPlayers,maxplayers, date, time, photoId);
                 fragment.show(activity.getSupportFragmentManager(), "PurchaseBottomDialogFragment");
                 //activity.getSupportFragmentManager().beginTransaction().replace(R.id.itemsRecyclerView, fragment).addToBackStack(null).commit();
             }

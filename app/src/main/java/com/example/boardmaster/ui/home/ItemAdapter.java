@@ -84,7 +84,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
                 }
                 StorageReference image = mStorageRef.child("images/" + photoid);
 
-                image.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                image.getBytes(1024*1024*5*5).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override
                     public void onSuccess(byte[] bytes) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -133,6 +133,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         String photoId = games.get(position).getProfileImages().get(0).getId();
 
 
+        int maxplayers = games.get(position).getMaxPlayers();
 
 
 
@@ -141,7 +142,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
                 JoinBottomDialogFragment fragment = new JoinBottomDialogFragment();
-                fragment.setParameters(id,game,title, description, finalPlayers, date, time, photoId);
+                fragment.setParameters(id,game,title, description, finalPlayers,maxplayers, date, time, photoId);
                 fragment.show(activity.getSupportFragmentManager(), "PurchaseBottomDialogFragment");
                 //activity.getSupportFragmentManager().beginTransaction().replace(R.id.itemsRecyclerView, fragment).addToBackStack(null).commit();
             }

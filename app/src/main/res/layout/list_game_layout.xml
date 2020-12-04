@@ -28,18 +28,18 @@
 
         <TextView
             android:id="@+id/listGamePlayers"
-            android:layout_width="89dp"
-            android:layout_height="78dp"
+            android:layout_width="113dp"
+            android:layout_height="75dp"
             android:layout_below="@+id/listGameMembers"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginRight="36dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="23dp"
+            android:layout_marginRight="23dp"
             android:layout_toStartOf="@id/listGameMembers"
+            android:layout_toLeftOf="@id/listGameMembers"
             android:text="Players"
-            android:textStyle="italic"
-            android:layout_toLeftOf="@id/listGameMembers" />
+            android:textStyle="italic" />
 
         <ImageView
             android:id="@+id/listGroupImage"
@@ -69,16 +69,16 @@
 
         <TextView
             android:id="@+id/listGameMembers"
-            android:layout_width="112dp"
+            android:layout_width="115dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginStart="95dp"
             android:layout_marginLeft="95dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
             android:layout_toEndOf="@+id/listGroupName"
             android:layout_toRightOf="@+id/listGroupName"
             android:text="GameMembers:"

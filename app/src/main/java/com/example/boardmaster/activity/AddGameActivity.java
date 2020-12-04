@@ -198,7 +198,6 @@ public class AddGameActivity extends AppCompatActivity {
 
 
         spinner.setAdapter(new ArrayAdapter<>(AddGameActivity.this, R.layout.support_simple_spinner_dropdown_item, gameList));
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {

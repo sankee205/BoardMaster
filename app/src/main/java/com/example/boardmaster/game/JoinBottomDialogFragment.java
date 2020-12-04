@@ -51,6 +51,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
     private String date;
     private String time;
     private String photoID;
+    private int maxPlayers;
 
     private StorageReference mStorageRef;
 
@@ -90,9 +91,11 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         getBoardGamePhoto(photoID);
+        int max = maxPlayers + 1;
+        int playerlist = players.split(",").length;
 
 
-        if(CurrentUser.getInstance().isUserLogedIn()){
+        if(currentUser.isUserLogedIn()){
             if (players.contains(CurrentUser.getInstance().getUser().getUsername())){
                 mBuyButton.setVisibility(View.GONE);
             }
@@ -107,7 +110,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
                 });
             }
         }
-        else{
+        if(currentUser.isUserLogedIn() == false){
             mBuyButton.setVisibility(View.VISIBLE);
             mBuyButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,6 +124,9 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
 
                 }
             });
+        }
+        if(max == playerlist) {
+            mBuyButton.setVisibility(View.GONE);
         }
 
 
@@ -139,7 +145,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
      * @param time
      * @param photoId
      */
-    public void setParameters(Long id, String game, String title, String description, String players, String date, String time, String photoId){
+    public void setParameters(Long id, String game, String title, String description, String players, int maxplayers, String date, String time, String photoId){
         this.id = id;
         this.game = game;
         this.title = title;
@@ -148,6 +154,7 @@ public class JoinBottomDialogFragment extends BottomSheetDialogFragment {
         this.date = date;
         this.time = time;
         this.photoID = photoId;
+        this.maxPlayers = maxplayers;
 
     }
 

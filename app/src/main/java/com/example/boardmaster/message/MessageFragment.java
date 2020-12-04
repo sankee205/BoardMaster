@@ -142,7 +142,6 @@ public class MessageFragment extends BottomSheetDialogFragment {
         sendButton = view.findViewById(R.id.sendMessageButton);
         adapter = new MessageAdapter(messages);
         getconversationid();
-
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,6 +158,10 @@ public class MessageFragment extends BottomSheetDialogFragment {
                 selectImagesMethod();
             }
         });
+        if(currentUser.isUserLogedIn()){
+            System.out.println("login");
+            updateConversation(conversationId);
+        }
 
         return view;
 
